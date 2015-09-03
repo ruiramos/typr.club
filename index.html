@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Helvetica;
+    }
+
+    .test-container {
+      width:350px;
+      position: relative;
+    }
+
+    video.test-video {
+      width:100%;
+      transition: -webkit-filter 300ms ease-out;
+    }
+
+    video.test-video.grayscale {
+      -webkit-filter: contrast(0.2) grayscale(1);
+    }
+
+    input.test-input {
+      padding: 6px 8px;
+      width: 97.5%;
+      font-size: 1.2em;
+      position: absolute;
+      border: 0;
+      background-color: rgba(255,255,255,0.5);
+      bottom: 2.5%;
+      left: 1.25%;
+
+    }
+
+    .chat-container .message {
+      width: 320px;
+      margin:20px 10px;
+      display:inline-block;
+      position: relative;
+    }
+
+    .chat-container .message span {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      font-size: 2em;
+      overflow: hidden;
+      font-weight: bold;
+      color: rgba(255,255,255,0.5);
+    }
+
+  </style>
+
+</head>
+<body>
+  <div class="test-container">
+    <video class="test-video"></video>
+    <input type="text" class="test-input" data-hook="chat-input" />
+  </div>
+
+  <div class="chat-container" data-hook="chat-container"></div>
+
+
+  <script src="jspm_packages/system.js"></script>
+  <script src="config.js"></script>
+  <script>
+    System.import('lib/main.js');
+  </script></body>
+</html>
