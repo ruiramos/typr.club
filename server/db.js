@@ -1,17 +1,18 @@
 
-var messages = [];
+var messages = {};
 
 var MAX = 50;
 
-function save(msg){
-  messages.push(msg);
-  if(messages.length > MAX){
-    messages.splice(0, messages.length - MAX);
+function save(msg, room){
+  messages[room] = messages[room] || [];
+  messages[room].push(msg);
+  if(messages[room].length > MAX){
+    messages[room].splice(0, messages[room].length - MAX);
   }
 }
 
-function getAll(){
-  return messages;
+function getAll(room){
+  return messages[room] || [];
 }
 
 module.exports = {

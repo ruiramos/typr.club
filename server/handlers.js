@@ -22,8 +22,8 @@ function upload(response, postData){
     text: content.text
   };
 
-  db.save(message);
-  io.broadcast(message)
+  db.save(message, content.room);
+  io.broadcast(message, content.room)
 
   response.statusCode = 200;
   response.writeHead(200, {

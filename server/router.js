@@ -12,8 +12,9 @@ function route(handle, pathname, response, postData){
   } else if(staticExt[ext]){
     handle._static(response, pathname, postData);
   } else {
-    response.writeHead(404, { 'Content-Type': 'text/plain' });
-    response.end();
+    handle['/'](response, postData);
+    //response.writeHead(404, { 'Content-Type': 'text/plain' });
+    //response.end();
   }
 };
 
