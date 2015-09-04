@@ -51,7 +51,7 @@ function serveStatic(response, pathname, postData){
 
   try {
     if (hasMediaType(extensionTypes[extension]))
-        response.end(fs.readFileSync(path.resolve(__dirname, '.' + pathname)));
+        response.end(fs.readFileSync(path.resolve(__dirname, pathname)));
     else
         response.end(fs.readFileSync(path.resolve(__dirname, '..' + pathname)));
   } catch (e){
