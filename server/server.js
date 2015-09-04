@@ -1,10 +1,11 @@
 var http = require('http'),
     url = require('url'),
     io = require('./io'),
+    path = require('path');
     config = {
       port: 8000,
       wsPort: 8008,
-      upload_dir: './uploads',
+      upload_dir: path.resolve(__dirname, './uploads'),
 
       s3: {
           key: '',

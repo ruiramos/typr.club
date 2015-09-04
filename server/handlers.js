@@ -1,6 +1,7 @@
 
 var fs = require('fs'),
     db = require('./db'),
+    path = require('path');
     io = require('./io');
 
 var filePathBase = './uploads/';
@@ -9,7 +10,7 @@ function home(response){
   response.writeHead(200, {
       'Content-Type': 'text/html'
   });
-  response.end(fs.readFileSync('../index.html'));
+  response.end(fs.readFileSync(path.resolve(__dirname, '../index.html')));
 };
 
 function upload(response, postData){
@@ -50,9 +51,9 @@ function serveStatic(response, pathname, postData){
 
   try {
     if (hasMediaType(extensionTypes[extension]))
-        response.end(fs.readFileSync('.' + pathname));
+        response.end(fs.readFileSync(path.resolve(__dirname, '.' + pathname)));
     else
-        response.end(fs.readFileSync('..' + pathname));
+        response.end(fs.readFileSync(path.resolve(__dirname, '..' + pathname)));
   } catch (e){
     response.writeHead(404, { 'Content-Type': 'text/plain' });
     response.end();
