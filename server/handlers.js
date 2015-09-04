@@ -4,7 +4,7 @@ var fs = require('fs'),
     path = require('path');
     io = require('./io');
 
-var filePathBase = path.resolve(__dirname, './uploads/');
+var filePathBase = './uploads/';
 
 function home(response){
   response.writeHead(200, {
@@ -19,7 +19,7 @@ function upload(response, postData){
   _upload(response, content.video);
 
   var message = {
-    video: filePathBase + '/' + content.video.name,
+    video: filePathBase + content.video.name,
     text: content.text
   };
 
@@ -72,7 +72,7 @@ function hasMediaType(type) {
 function _upload(response, file) {
     var fileRootName = file.name.split('.').shift(),
         fileExtension = file.name.split('.').pop(),
-        fileRootNameWithBase = filePathBase + '/' + fileRootName,
+        fileRootNameWithBase = path.resolve(__dirname, filePathBase) + '/' + fileRootName,
         filePath = fileRootNameWithBase + '.' + fileExtension,
         fileID = 2,
         fileBuffer;
