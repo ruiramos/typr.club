@@ -9,18 +9,31 @@
       box-sizing: border-box;
     }
 
+    a, a:active{
+      color: #6F6FFF;
+    }
+
+    a:hover {
+      color: #fff;
+    }
+
     body {
       font-family: Helvetica;
+      padding: 0;
+      margin: 0;
     }
 
     .composer-container {
+      margin-top: 5px;
       width:24%;
+      min-height: 263px;
       margin-left: 0.5%;
       position: relative;
     }
 
     video.test-video {
       width:100%;
+      min-height: 263px;
       transition: -webkit-filter 300ms ease-out;
     }
 
@@ -35,13 +48,13 @@
       position: absolute;
       border: 0;
       background-color: rgba(255,255,255,0.5);
-      bottom: 8px;
+      bottom: 10px;
       left: 1.25%;
     }
 
     .chat-container .message {
       width: 24%;
-      margin:0.5% 0.5%;
+      margin:0.275% 0.5%;
       display:inline-block;
       position: relative;
       vertical-align: top;
@@ -63,6 +76,14 @@
       opacity: 0.55;
     }
 
+    nav {
+      background: #2F2A27;
+      text-align: center;
+      font-size:0.75em;
+      padding: 10px 0;
+      color: #969696;
+    }
+
     @media all and (min-width: 1650px){
       .composer-container {
          width:19.5%;
@@ -80,6 +101,7 @@
 
 </head>
 <body>
+  <nav data-hook="top-bar">&nbsp;</nav>
   <div class="composer-container" data-hook="composer-container"></div>
   <div class="chat-container" data-hook="chat-container"></div>
 
@@ -89,5 +111,17 @@
   <script src="build.js"></script>
   <script>
     System.import('lib/main.js');
-  </script></body>
+  </script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-38568098-4', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
 </html>
