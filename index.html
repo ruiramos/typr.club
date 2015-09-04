@@ -31,14 +31,12 @@
     .composer-container {
       margin-top: 5px;
       width:24%;
-      min-height: 263px;
       margin-left: 0.5%;
       position: relative;
     }
 
     video.test-video {
       width:100%;
-      min-height: 263px;
       transition: -webkit-filter 300ms ease-out;
     }
 
@@ -91,12 +89,25 @@
 
     @media all and (min-width: 1650px){
       .composer-container {
-         width:19.5%;
+         width:19%;
          margin:0.25% 0.25%;
        }
 
       .chat-container .message {
         width: 19%;
+        margin:0.25% 0.25%;
+      }
+
+    }
+
+    @media all and (max-width: 650px){
+      .composer-container {
+         width:32%;
+         margin:0.25% 0.25%;
+       }
+
+      .chat-container .message {
+        width: 32%;
         margin:0.25% 0.25%;
       }
 
