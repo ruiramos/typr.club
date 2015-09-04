@@ -14,7 +14,8 @@
     }
 
     .composer-container {
-      width:350px;
+      width:24%;
+      margin-left: 0.5%;
       position: relative;
     }
 
@@ -34,16 +35,20 @@
       position: absolute;
       border: 0;
       background-color: rgba(255,255,255,0.5);
-      bottom: 2.5%;
+      bottom: 8px;
       left: 1.25%;
-
     }
 
     .chat-container .message {
-      width: 320px;
-      margin:20px 10px;
+      width: 24%;
+      margin:0.5% 0.5%;
       display:inline-block;
       position: relative;
+      vertical-align: top;
+    }
+
+    .chat-container .message video {
+      width: 100%;
     }
 
     .chat-container .message span {
@@ -58,6 +63,19 @@
       opacity: 0.55;
     }
 
+    @media all and (min-width: 1650px){
+      .composer-container {
+         width:19.5%;
+         margin:0.25% 0.25%;
+       }
+
+      .chat-container .message {
+        width: 19%;
+        margin:0.25% 0.25%;
+      }
+
+    }
+
   </style>
 
 </head>
@@ -68,6 +86,7 @@
 
   <script src="jspm_packages/system.js"></script>
   <script src="config.js"></script>
+  <script src="build.js"></script>
   <script>
     System.import('lib/main.js');
   </script></body>

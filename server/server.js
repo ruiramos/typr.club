@@ -34,8 +34,11 @@ function start(route, handle) {
     }
 
     http.createServer(onRequest).listen(config.port);
-
     io.connect(config.wsPort);
 }
 
 exports.start = start;
+
+
+
+// Use connect method to connect to the Server

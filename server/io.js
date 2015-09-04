@@ -12,7 +12,10 @@ function connect(port){
     var room = ws.upgradeReq.url.replace('/', '');
     clients[room] = clients[room] || [];
     clients[room].push(ws);
-    ws.send(JSON.stringify(db.getAll(room)));
+
+    db.getAll(room, function(res){
+      ws.send(JSON.stringify(res));
+    })
 
     ws.on('close', function(){
       clients[room].splice(clients[room].indexOf(ws), 1);

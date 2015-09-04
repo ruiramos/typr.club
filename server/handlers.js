@@ -48,16 +48,21 @@ function serveStatic(response, pathname, postData){
       'Content-Type': extensionTypes[extension]
   });
 
-  if (hasMediaType(extensionTypes[extension]))
-      response.end(fs.readFileSync('.' + pathname));
-  else
-      response.end(fs.readFileSync('../' + pathname));
+  try {
+    if (hasMediaType(extensionTypes[extension]))
+        response.end(fs.readFileSync('.' + pathname));
+    else
+        response.end(fs.readFileSync('..' + pathname));
+  } catch (e){
+    response.writeHead(404, { 'Content-Type': 'text/plain' });
+    response.end();
+  }
 };
 
 function hasMediaType(type) {
     var isHasMediaType = false;
     ['audio/wav', 'audio/ogg', 'video/webm', 'video/mp4'].forEach(function(t) {
-      if(t== type) isHasMediaType = true;
+      if(t == type) isHasMediaType = true;
     });
 
     return isHasMediaType;
