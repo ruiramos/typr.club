@@ -4,7 +4,7 @@ var fs = require('fs'),
     path = require('path');
     io = require('./io');
 
-var filePathBase = './uploads/';
+var filePathBase = path.resolve(__dirname, './uploads/');
 
 function home(response){
   response.writeHead(200, {
