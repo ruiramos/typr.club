@@ -3,6 +3,7 @@ function route(handle, pathname, response, postData){
   var staticExt = {
     'js': true,
     'webm': true,
+    'png': true,
   };
 
   var ext = pathname.split('.').pop();

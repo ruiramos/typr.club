@@ -42,7 +42,8 @@ function serveStatic(response, pathname, postData){
         'mp4': 'video/mp4',
         'wav': 'audio/wav',
         'ogg': 'audio/ogg',
-        'gif': 'image/gif'
+        'gif': 'image/gif',
+        'png': 'image/png'
       };
 
   response.writeHead(200, {
