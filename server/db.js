@@ -40,6 +40,7 @@ function getAll(room, fn){
 
 function getWithOffset(room, offset, fn){
   this.getAll(room, function(data){
+    console.log(data, data.slice(-MAX-offset, -offset), MAX, offset)
     fn(data.slice(-MAX-offset, -offset));
   })
 }
