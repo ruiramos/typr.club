@@ -4,16 +4,12 @@ var redis = require("redis"),
 
 var messages = {};
 
-var MAX = 50;
+var MAX = 25;
 
 function save(msg, room){
   if(messages[room]){
     messages[room].push(msg);
-    if(messages[room].length > MAX){
-      messages[room].splice(0, messages[room].length - MAX);
-    }
-
-    client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', (60 * 60 * 24 * 1), redis.print);
+    client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', (60 * 60 * 24 * 7), redis.print);
 
   } else {
     // trying to get again just to be sure
@@ -27,7 +23,6 @@ function save(msg, room){
 }
 
 function getAll(room, fn){
-  console.log('get room', room)
   if(messages[room]){
     fn(messages[room])
   } else {
@@ -43,9 +38,15 @@ function getAll(room, fn){
   }
 }
 
+function getWithOffset(room, offset, fn){
+  this.getAll(room, function(data){
+    fn(data.slice(offset, offset+MAX));
+  })
+}
 
 module.exports = {
   save: save,
-  getAll: getAll
+  getWithOffset: getWithOffset,
+  getAll: getAll,
 };
 

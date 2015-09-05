@@ -13,8 +13,21 @@ function connect(port){
     clients[room] = clients[room] || [];
     clients[room].push(ws);
 
-    db.getAll(room, function(res){
+    db.getWithOffset(room, 0, function(res){
       ws.send(JSON.stringify(res));
+    })
+
+    ws.on('message', function(res){
+      var data = JSON.parse(res);
+      switch(data.type){
+        case 'request:load':
+          db.getWithOffset(room, data.offset || 0, function(videos){
+            ws.send(JSON.stringify(videos));
+          })
+          break;
+      }
+
+
     })
 
     ws.on('close', function(){
