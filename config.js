@@ -19,6 +19,7 @@ System.config({
     "core-js": "npm:core-js@1.1.3",
     "getusermedia": "npm:getusermedia@1.3.5",
     "jquery": "github:components/jquery@2.1.4",
+    "lodash": "npm:lodash@3.10.1",
     "recordrtc": "npm:recordrtc@5.1.1",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -77,6 +78,9 @@ System.config({
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:lodash@3.10.1": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.1"
