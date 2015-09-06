@@ -2,6 +2,8 @@
 var fs = require('fs'),
     db = require('./db'),
     path = require('path');
+    url = require('url'),
+    secrets = require('./secrets'),
     io = require('./io');
 
 var filePathBase = './uploads/';
@@ -12,6 +14,32 @@ function home(response){
   });
   response.end(fs.readFileSync(path.resolve(__dirname, '../index.html')));
 };
+
+function api(response, data, request){
+  response.writeHead(200, {
+      'Content-Type': 'text/html'
+  });
+
+  var query = url.parse(request.url).query,
+      queryObject = {};
+  query.split('&').forEach(function(op){
+    var obj = op.split('=');
+    queryObject[obj[0]] = obj[1];
+  })
+
+  if(queryObject.key === secrets.key){
+    if(queryObject.remove){
+      db.remove(queryObject.remove.split(','), queryObject.room || 'world')
+    }
+
+    response.end('ok');
+
+  } else {
+    response.end('auth failed');
+  }
+
+
+}
 
 function upload(response, postData){
   var content = JSON.parse(postData);
@@ -92,6 +120,7 @@ function _upload(response, file) {
 
 module.exports = {
   home: home,
+  api: api,
   upload: upload,
   serveStatic: serveStatic
 }

@@ -2,3 +2,4 @@ jspm_packages/
 node_modules/
 server/uploads
 server/dump.rdb
+server/secrets.js
