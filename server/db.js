@@ -56,9 +56,9 @@ function remove(ids, room, number){
 
   if(messages[room]){
     if(!number){
-      this._removeWithIds(ids, room);
+      _removeWithIds(ids, room);
     } else {
-      this._removeWithSplice(ids[0], room, number);
+      _removeWithSplice(ids[0], room, number);
     }
 
     client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', (60 * 60 * 24 * 7), redis.print);
@@ -66,9 +66,9 @@ function remove(ids, room, number){
     this.getAll(room, function(){
       if(messages[room]){
         if(!number){
-          this._removeWithIds(ids, room);
+          _removeWithIds(ids, room);
         } else {
-          this._removeWithSplice(ids[0], room, number);
+          _removeWithSplice(ids[0], room, number);
         }
 
         client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', (60 * 60 * 24 * 7), redis.print);
@@ -86,14 +86,14 @@ function _removeWithIds(ids, room){
 function _removeWithSplice(id, room, number){
   var index;
   for (var i = messages[room].length - 1; i >= 0; i--) {
-    if(messages.room[i].video.indexOf(id+'.webm') < -1){
+    if(messages[room][i].video && messages[room][i].video.indexOf(id+'.webm') > -1){
       index = i;
       break;
     }
   };
 
   if(index !== undefined){
-    messages.room.splice(index, number);
+    messages[room].splice(index, number);
   }
 
 }
