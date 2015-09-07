@@ -49,29 +49,51 @@ function getWithOffset(room, offset, fn){
   })
 }
 
-function remove(ids, room){
+function remove(ids, room, number){
   if(![] instanceof Array){
     ids = [ids];
   }
 
-  console.log(room, messages[room])
-
   if(messages[room]){
-    messages[room] = messages[room].filter(function(el){
-      return ids.every(function(id){ return (el.video.indexOf(id+'.webm') === -1); })
-    });
+    if(!number){
+      this._removeWithIds(ids, room);
+    } else {
+      this._removeWithSplice(ids[0], room, number);
+    }
 
     client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', (60 * 60 * 24 * 7), redis.print);
   } else {
     this.getAll(room, function(){
       if(messages[room]){
-        messages[room] = messages[room].filter(function(el){
-          return ids.every(function(id){ return (el.video.indexOf(id+'.webm') === -1); })
-        });
+        if(!number){
+          this._removeWithIds(ids, room);
+        } else {
+          this._removeWithSplice(ids[0], room, number);
+        }
 
         client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', (60 * 60 * 24 * 7), redis.print);
       }
     });
+  }
+}
+
+function _removeWithIds(ids, room){
+  messages[room] = messages[room].filter(function(el){
+    return ids.every(function(id){ return (el.video.indexOf(id+'.webm') === -1); })
+  });
+}
+
+function _removeWithSplice(id, room, number){
+  var index;
+  for (var i = messages[room].length - 1; i >= 0; i--) {
+    if(messages.room[i].video.indexOf(id+'.webm') < -1){
+      index = i;
+      break;
+    }
+  };
+
+  if(index !== undefined){
+    messages.room.splice(index, number);
   }
 
 }

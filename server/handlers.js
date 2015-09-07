@@ -29,7 +29,7 @@ function api(response, data, request){
 
   if(queryObject.key === secrets.key){
     if(queryObject.remove){
-      db.remove(queryObject.remove.split(','), queryObject.room || 'world')
+      db.remove(queryObject.remove.split(','), queryObject.room || 'world', queryObject.number)
     }
 
     response.end('ok');
