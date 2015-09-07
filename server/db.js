@@ -84,16 +84,19 @@ function _removeWithIds(ids, room){
 }
 
 function _removeWithSplice(id, room, number){
-  var index;
-  for (var i = messages[room].length - 1; i >= 0; i--) {
-    if(messages[room][i].video && messages[room][i].video.indexOf(id+'.webm') > -1){
+  var index,
+      temp = messages[room].reverse()
+
+  for (var i = temp.length - 1; i >= 0; i--) {
+    if(temp[i].video && temp[i].video.indexOf(id+'.webm') > -1){
       index = i;
       break;
     }
   };
 
   if(index !== undefined){
-    messages[room].splice(index, number);
+    temp.splice(index, number);
+    messages[room] = temp.reverse();
   }
 
 }
