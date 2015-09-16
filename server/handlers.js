@@ -4,9 +4,14 @@ var fs = require('fs'),
     path = require('path');
     url = require('url'),
     secrets = require('./secrets'),
-    io = require('./io');
+    io = require('./io'),
+    AWS = require('aws-sdk');
 
 var filePathBase = './uploads/';
+var s3 = new AWS.S3({region: 'eu-west-1'});
+
+process.env.AWS_ACCESS_KEY_ID = secrets.s3_key;
+process.env.AWS_SECRET_ACCESS_KEY = secrets.s3_secret;
 
 function home(response){
   response.writeHead(200, {
@@ -22,6 +27,7 @@ function api(response, data, request){
 
   var query = url.parse(request.url).query,
       queryObject = {};
+
   query.split('&').forEach(function(op){
     var obj = op.split('=');
     queryObject[obj[0]] = obj[1];
@@ -44,21 +50,33 @@ function api(response, data, request){
 function upload(response, postData){
   var content = JSON.parse(postData);
 
-  _upload(response, content.video);
+  _upload(response, content.video, function(data){
 
-  var message = {
-    video: filePathBase.replace('.', '') + content.video.name,
-    text: content.text
-  };
+    if(!data){
+      // upload failed
+      response.statusCode = 500;
+      response.end();
 
-  db.save(message, content.room);
-  io.broadcast(message, content.room)
+    } else {
+      var message = {
+        type: 'message:new',
+        data: {
+          video: data.Location,
+          text: content.text
+        }
+      };
 
-  response.statusCode = 200;
-  response.writeHead(200, {
-      'Content-Type': 'application/json'
+      db.save(message.data, content.room);
+      io.broadcast(message, content.room)
+
+      response.statusCode = 200;
+      response.writeHead(200, {
+          'Content-Type': 'application/json'
+      });
+
+      response.end(message.data.video);
+    }
   });
-  response.end(content.video.name);
 
 };
 
@@ -98,24 +116,29 @@ function hasMediaType(type) {
     return isHasMediaType;
 };
 
-function _upload(response, file) {
+function _upload(response, file, fn) {
     var fileRootName = file.name.split('.').shift(),
-        fileExtension = file.name.split('.').pop(),
-        fileRootNameWithBase = path.resolve(__dirname, filePathBase) + '/' + fileRootName,
-        filePath = fileRootNameWithBase + '.' + fileExtension,
-        fileID = 2,
-        fileBuffer;
-
-    while (fs.existsSync(filePath)) {
-        filePath = fileRootNameWithBase + '(' + fileID + ').' + fileExtension;
-        fileID += 1;
-    }
+        fileExtension = file.name.split('.').pop();
 
     file.contents = file.contents.split(',').pop();
 
-    fileBuffer = new Buffer(file.contents, "base64");
+    var params = {
+      Key: fileRootName + '.' + fileExtension,
+      ContentType: 'video/webm',
+      Bucket: 'typr.club',
+      Body: new Buffer(file.contents, "base64")
+    };
 
-    fs.writeFileSync(filePath, fileBuffer);
+    s3.upload(params)
+      .send(function(err, data) {
+        if(err){
+          console.log('Upload error:', err);
+          fn(false);
+        } else {
+          fn(data);
+        }
+      });
+
 }
 
 module.exports = {

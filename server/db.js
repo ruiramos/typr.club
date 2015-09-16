@@ -50,7 +50,7 @@ function getWithOffset(room, offset, fn){
 }
 
 function remove(ids, room, number){
-  if(![] instanceof Array){
+  if(!ids instanceof Array){
     ids = [ids];
   }
 
@@ -85,7 +85,7 @@ function _removeWithIds(ids, room){
 
 function _removeWithSplice(id, room, number){
   var index,
-      temp = messages[room].reverse()
+      temp = messages[room].slice().reverse();
 
   for (var i = temp.length - 1; i >= 0; i--) {
     if(temp[i].video && temp[i].video.indexOf(id+'.webm') > -1){
