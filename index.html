@@ -155,6 +155,8 @@
       padding: 10px 2.5%;
       color: #B3AFB2;
 
+      overflow: hidden;
+
       min-height: 34px;
     }
 
@@ -205,9 +207,26 @@
         margin:0.25% 0.25%;
       }
 
-      .chat-container .message span {
+
+      .chat-container .message span.text {
         font-size: 26px;
       }
+
+      nav .clients {
+        bottom: -1px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-top: 0;
+        top: auto;
+      }
+
+      nav .content {
+        font-size: 11px;
+        padding-bottom: 10px;
+        display: inline-block;
+      }
+
+      .desktop {display: none; !important}
     }
 
     @media only screen and (max-width: 400px){
@@ -221,9 +240,11 @@
         margin:0.25% 0.25%;
       }
 
-      .chat-container .message span {
+      .chat-container .message span.text {
         font-size: 22px;
       }
+
+      .desktop {display: none; !important}
     }
 
   </style>
