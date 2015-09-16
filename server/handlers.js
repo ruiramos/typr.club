@@ -44,7 +44,6 @@ function api(response, data, request){
     response.end('auth failed');
   }
 
-
 }
 
 function upload(response, postData){
@@ -67,7 +66,7 @@ function upload(response, postData){
       };
 
       db.save(message.data, content.room);
-      io.broadcast(message, content.room)
+      io.broadcastDelayed(message, content.room)
 
       response.statusCode = 200;
       response.writeHead(200, {

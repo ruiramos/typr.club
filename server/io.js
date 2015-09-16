@@ -3,7 +3,9 @@ var db = require('./db');
 var clients = {};
 
 var WebSocketServer = require('ws').Server,
-    wss;
+    wss,
+    broadcastBuffer = {},
+    broadcastTimeout;
 
 function connect(port){
   wss = new WebSocketServer({ port: port });
@@ -45,7 +47,40 @@ function broadcast(msg, room){
   });
 }
 
+function broadcastDelayed(msg, room){
+  var self = this;
+
+  broadcastBuffer[room] = broadcastBuffer[room] || [];
+  broadcastBuffer[room].push(msg);
+
+  if(broadcastTimeout){
+    clearTimeout(broadcastTimeout);
+    broadcastTimeout = null;
+  }
+
+  setTimeout(function(){
+    broadcastTimeout =  _sendBroadcastBuffer.call(self);
+  }, 100);
+
+}
+
+function _sendBroadcastBuffer(){
+  Object.keys(broadcastBuffer).forEach(function(room){
+    var msg = {type: '', data: []};
+
+    broadcastBuffer[room].forEach(function(m){
+      msg.type = msg.type || m.type;
+      msg.data.push(m.data); // need to concat if array in future?!
+    })
+
+    this.broadcast(msg, room);
+
+    delete broadcastBuffer[room];
+  }, this)
+}
+
 module.exports = {
   connect: connect,
-  broadcast: broadcast
+  broadcast: broadcast,
+  broadcastDelayed: broadcastDelayed
 };
