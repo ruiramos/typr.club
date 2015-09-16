@@ -27,7 +27,7 @@ function connect(port){
       switch(data.type){
         case 'request:load':
           db.getWithOffset(room, data.offset || 0, function(videos){
-            ws.send(JSON.stringify({type: 'message:new', data: videos}));
+            ws.send(JSON.stringify({type: 'message:load', data: videos}));
           })
           break;
       }
