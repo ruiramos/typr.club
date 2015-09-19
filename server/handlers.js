@@ -46,36 +46,52 @@ function api(response, data, request){
 
 }
 
-function upload(response, postData){
+function upload(response, postData, request){
   var content = JSON.parse(postData);
+  var ip = request.connection.remoteAddress;
+  var room = content.room;
 
-  _upload(response, content.video, function(data){
-
-    if(!data){
-      // upload failed
-      response.statusCode = 500;
-      response.end();
-
-    } else {
-      var message = {
-        type: 'message:new',
-        data: {
-          video: data.Location,
-          text: content.text
-        }
-      };
-
-      db.save(message.data, content.room);
-      io.broadcastDelayed(message, content.room)
-
-      response.statusCode = 200;
-      response.writeHead(200, {
+  if(!db.canUserPost(content.uuid, room, ip, function(canPost){
+    if(!canPost){
+      response.statusCode = 403;
+      response.writeHead(403, {
           'Content-Type': 'application/json'
       });
 
-      response.end(message.data.video);
-    }
-  });
+      response.end(JSON.stringify({error: 'denied'}));
+
+    } else {
+      db.setUserLock(content.uuid, room, ip);
+
+      _upload(response, content.video, function(data){
+
+        if(!data){
+          // upload failed
+          response.statusCode = 500;
+          response.end();
+
+        } else {
+          var message = {
+            type: 'message:new',
+            data: {
+              video: data.Location,
+              text: content.text
+            }
+          };
+
+          db.save(message.data, room);
+          io.broadcastDelayed(message, room)
+
+          response.statusCode = 200;
+          response.writeHead(200, {
+              'Content-Type': 'application/json'
+          });
+
+          response.end(message.data.video);
+        }
+      });
+    };
+  }));
 
 };
 
@@ -137,7 +153,6 @@ function _upload(response, file, fn) {
           fn(data);
         }
       });
-
 }
 
 module.exports = {

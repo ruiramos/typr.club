@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width" />
   <meta name="description" content="An app of short videos and chat." />
 
+  <meta property="og:title" content="typr.club" />
+  <meta property="og:description" content="An app of short videos and chat." />
   <meta property="og:url" content="http://typr.club" />
   <meta property="og:image" content="http://typr.club/screenshot.png" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -160,12 +162,18 @@
       min-height: 34px;
     }
 
-    nav strong {
+    nav .content > a {
       background-color: #AB6B75;
       color: white;
+      text-decoration: none;
+      font-weight: bold;
     }
 
-    nav > .content > .subtitle {
+    nav .content > a:hover {
+      background: #D896A0;
+    }
+
+    nav .content > .subtitle {
       color: #777575;
     }
 
@@ -181,6 +189,36 @@
       padding: 4px 9px;
       font-size: 10px;
       font-weight: 600;
+    }
+
+    .notifications {
+      position: absolute;
+      text-align: center;
+      display: block;
+      top: 5%;
+      width: 100%;
+      z-index: 9999;
+    }
+
+    .notifications .message {
+      position: relative;
+      top: -400px;
+      opacity: 0;
+      font-size:12px;
+
+      padding:3px 6px;
+
+      transition: top 300ms ease-out,
+                  opacity 300ms ease-out;
+    }
+
+    .notifications .message.in {
+      top: 0;
+      opacity: 1;
+    }
+
+    .notifications .message.warn-message{
+      background: yellow;
     }
 
     @media all and (min-width: 1650px){
@@ -252,6 +290,7 @@
 </head>
 <body>
   <nav data-hook="top-bar"></nav>
+  <div class="notifications" data-hook="notifications"></div>
   <div class="inline-hack">
     <div class="composer-container" data-hook="composer-container"></div>
     <div class="chat-container" data-hook="chat-container"></div>

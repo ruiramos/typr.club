@@ -42,6 +42,9 @@ function connect(port){
 }
 
 function broadcast(msg, room){
+  // can happen if the server restarts and there are hanged clients :/
+  if(!clients[room]) return;
+
   clients[room].forEach(function each(client) {
     client.send(JSON.stringify(msg));
   });
@@ -53,14 +56,13 @@ function broadcastDelayed(msg, room){
   broadcastBuffer[room] = broadcastBuffer[room] || [];
   broadcastBuffer[room].push(msg);
 
-  if(broadcastTimeout){
-    clearTimeout(broadcastTimeout);
-    broadcastTimeout = null;
+  if(!broadcastTimeout){
+    setTimeout(function(){
+      broadcastTimeout =  _sendBroadcastBuffer.call(self);
+    }, 100);
   }
 
-  setTimeout(function(){
-    broadcastTimeout =  _sendBroadcastBuffer.call(self);
-  }, 100);
+
 
 }
 
@@ -77,6 +79,8 @@ function _sendBroadcastBuffer(){
 
     delete broadcastBuffer[room];
   }, this)
+
+  broadcastTimeout = null;
 }
 
 module.exports = {
