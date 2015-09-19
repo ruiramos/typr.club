@@ -177,10 +177,11 @@
       color: #777575;
     }
 
-    nav .clients {
+    nav .clients,
+    nav .room {
       position:absolute;
       left:auto;
-      right: 2.5%;
+      right: 20px;
       top: 50%;
       margin-top: -10px;
       background: #424040;
@@ -189,6 +190,10 @@
       padding: 4px 9px;
       font-size: 10px;
       font-weight: 600;
+    }
+
+    nav .room {
+      right: 100px;
     }
 
     .notifications {
@@ -250,12 +255,17 @@
         font-size: 26px;
       }
 
-      nav .clients {
+      nav .clients,
+      nav .room {
         bottom: -1px;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         margin-top: 0;
         top: auto;
+      }
+
+      nav .room {
+        right: 99px;
       }
 
       nav .content {
