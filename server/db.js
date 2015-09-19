@@ -9,7 +9,7 @@ var MAX = 25;
 
 // lock stuff
 var locks = {
-  minute: 20,
+  minute: 10,
   day: 2000
 }
 
@@ -83,7 +83,6 @@ function getAll(room, fn){
     fn(messages[room])
   } else {
     client.get("vchat:"+room, function(err, res){
-      console.log(res)
       if(!res) {
         messages[room] = [];
       } else {
@@ -96,7 +95,6 @@ function getAll(room, fn){
 
 function getWithOffset(room, offset, fn){
   this.getAll(room, function(data){
-    console.log(data, data.slice(-MAX-offset, -offset), MAX, offset)
     if(!offset){
       fn(data.slice(-MAX-offset));
     } else {
