@@ -75,7 +75,8 @@ function upload(response, postData, request){
             type: 'message:new',
             data: {
               video: data.Location,
-              text: content.text
+              text: content.text,
+              uuid: content.uuid
             }
           };
 

@@ -71,7 +71,7 @@ function _sendBroadcastBuffer(){
     var msg = {type: '', data: []};
 
     broadcastBuffer[room].forEach(function(m){
-      msg.type = msg.type || m.type;
+      msg.type = msg.type || m.type; // @todo this is wrong... have to separate :new from :load messages!
       msg.data.push(m.data); // need to concat if array in future?!
     })
 
