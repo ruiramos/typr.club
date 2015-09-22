@@ -12,30 +12,45 @@ function connect(port){
   var self = this;
 
   wss.on('connection', function connection(ws) {
-    var room = ws.upgradeReq.url.replace('/', '');
-    clients[room] = clients[room] || [];
-    clients[room].push(ws);
+    var rooms = ws.upgradeReq.url.replace('/', '').split(',');
 
-    db.getWithOffset(room, 0, function(res){
-      ws.send(JSON.stringify({type: 'message:load', data: res}));
-    })
+    rooms.forEach(function(room){
+      clients[room] = clients[room] || [];
+      clients[room].push(ws);
 
-    self.broadcast({type: 'presence', data: {clients: clients[room].length}}, room);
+      db.getWithOffset(room, 0, function(res){
+        ws.send(JSON.stringify({type: 'message:load', data: res, room: room}));
+      })
+
+      self.broadcast({type: 'presence', data: {clients: clients[room].length}, room: room}, room);
+
+    });
+
+    // if(rooms.length === 1){
+    //   self.broadcast({type: 'presence', data: {clients: clients[rooms[0]].length}}, rooms[0]);
+    // }
 
     ws.on('message', function(res){
       var data = JSON.parse(res);
       switch(data.type){
         case 'request:load':
-          db.getWithOffset(room, data.offset || 0, function(videos){
-            ws.send(JSON.stringify({type: 'message:load', data: videos}));
+          db.getWithOffset(data.room, data.offset || 0, function(videos){
+            ws.send(JSON.stringify({type: 'message:load', data: videos, room: data.room}));
           })
           break;
       }
     })
 
     ws.on('close', function(){
-      clients[room].splice(clients[room].indexOf(ws), 1);
-      self.broadcast({type: 'presence', data: {clients: clients[room].length}}, room);
+      rooms.forEach(function(room){
+        clients[room].splice(clients[room].indexOf(ws), 1);
+
+        self.broadcast({type: 'presence', data: {clients: clients[room].length}, room: room}, room);
+      });
+
+      // if(rooms.length === 1){
+      //   self.broadcast({type: 'presence', data: {clients: clients[rooms[0]].length}}, rooms[0]);
+      // }
     })
   });
 
@@ -72,6 +87,7 @@ function _sendBroadcastBuffer(){
 
     broadcastBuffer[room].forEach(function(m){
       msg.type = msg.type || m.type; // @todo this is wrong... have to separate :new from :load messages!
+      msg.room = room;
       msg.data.push(m.data); // need to concat if array in future?!
     })
 
