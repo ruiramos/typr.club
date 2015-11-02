@@ -134,7 +134,7 @@ function thumb(response, _, request){
             });
           });
 
-        }, 1200);
+        }, 2000);
       });
     });
   })
