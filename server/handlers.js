@@ -42,7 +42,7 @@ function homeWithRender(response, _, request){
       })
 
       var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
-      response.end(template({res: res, currentRoom: room}));
+      response.end(template({res: res.reverse(), currentRoom: room}));
     })
 };
 
@@ -134,7 +134,7 @@ function thumb(response, _, request){
             });
           });
 
-        }, 500);
+        }, 1200);
       });
     });
   })
