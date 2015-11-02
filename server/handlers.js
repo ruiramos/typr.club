@@ -5,7 +5,10 @@ var fs = require('fs'),
     url = require('url'),
     secrets = require('./secrets'),
     io = require('./io'),
-    AWS = require('aws-sdk');
+    AWS = require('aws-sdk'),
+    phantom = require('phantom'),
+    Handlebars = require('handlebars');
+
 
 var filePathBase = './uploads/';
 var s3 = new AWS.S3({region: 'eu-west-1'});
@@ -13,11 +16,34 @@ var s3 = new AWS.S3({region: 'eu-west-1'});
 process.env.AWS_ACCESS_KEY_ID = secrets.s3_key;
 process.env.AWS_SECRET_ACCESS_KEY = secrets.s3_secret;
 
-function home(response){
-  response.writeHead(200, {
-      'Content-Type': 'text/html'
-  });
-  response.end(fs.readFileSync(path.resolve(__dirname, '../index.html')));
+function home(response, _, request){
+  if(_getQueryObject(request).render){
+    homeWithRender(response, _, request);
+
+  } else {
+    response.writeHead(200, {
+        'Content-Type': 'text/html'
+    });
+
+    var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
+    response.end(template({currentRoom: 'world'}));
+  }
+};
+
+function homeWithRender(response, _, request){
+  var room = url.parse(request.url).pathname.slice(1);
+  var data = {};
+
+    db.getWithOffset(room, 0, function(res){
+      response.writeHead(200, {'Content-Type': 'text/html'});
+
+      res.forEach(function(r){
+        r.poster = r.video.replace('webm', 'png').replace('typr.club', 'typr.club-mp4');
+      })
+
+      var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
+      response.end(template({res: res, currentRoom: room}));
+    })
 };
 
 function api(response, data, request){
@@ -25,13 +51,7 @@ function api(response, data, request){
       'Content-Type': 'text/html'
   });
 
-  var query = url.parse(request.url).query,
-      queryObject = {};
-
-  query.split('&').forEach(function(op){
-    var obj = op.split('=');
-    queryObject[obj[0]] = obj[1];
-  })
+  var queryObj = _getQueryObj(request);
 
   if(queryObject.key === secrets.key){
     if(queryObject.remove){
@@ -96,6 +116,30 @@ function upload(response, postData, request){
 
 };
 
+function thumb(response, _, request){
+  var id = _getQueryObject(request).id;
+  var filename = path.resolve(__dirname, './thumbnails/' + id + '_thumb.png');
+
+  phantom.create(function(ph) {
+    return ph.createPage(function(page) {
+      page.setViewportSize(1024, 768);
+      return page.open("http://typr.club/"+id+"?render=true", function(status) {
+        setTimeout(function(){
+          page.evaluate(function () { return document.body; }, function (result) {
+            page.render(filename, function(image){
+              response.writeHead(200, {
+                  'Content-Type': 'image/png'
+              });
+              response.end(fs.readFileSync(filename));
+            });
+          });
+
+        }, 500);
+      });
+    });
+  })
+};
+
 function serveStatic(response, pathname, postData){
   var extension = pathname.split('.').pop(),
       extensionTypes = {
@@ -156,10 +200,26 @@ function _upload(response, file, fn) {
       });
 }
 
+function _getQueryObject(request){
+  var query = url.parse(request.url).query,
+      queryObject = {};
+
+  if(!query) return queryObject;
+
+  query.split('&').forEach(function(op){
+    var obj = op.split('=');
+    queryObject[obj[0]] = obj[1] || true;
+  })
+
+  return queryObject;
+}
+
+
 module.exports = {
   home: home,
   api: api,
   upload: upload,
+  thumb: thumb,
   serveStatic: serveStatic
 }
 

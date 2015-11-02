@@ -36,6 +36,7 @@ function start(route, handle) {
 
     http.createServer(onRequest).listen(config.port);
     io.connect(config.wsPort);
+    console.log('Listening on port', config.port)
 }
 
 exports.start = start;

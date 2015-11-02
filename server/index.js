@@ -6,6 +6,7 @@ var server = require('./server'),
 routes['/'] = handlers.home;
 routes['/upload'] = handlers.upload;
 routes['/api'] = handlers.api;
+routes['/thumb'] = handlers.thumb;
 routes._static = handlers.serveStatic;
 
 server.start(router.route, routes);

@@ -9,7 +9,7 @@
   <meta property="og:title" content="typr.club" />
   <meta property="og:description" content="An app of short videos and chat." />
   <meta property="og:url" content="http://typr.club" />
-  <meta property="og:image" content="http://typr.club/screenshot.png" />
+  <meta property="og:image" content="http://typr.club/thumb?id={{ currentRoom }}" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1424" />
   <meta property="og:image:height" content="737" />
@@ -143,7 +143,8 @@
       border-color: #333 #333 #222 #222;
     }
 
-    .chat-container .message video {
+    .chat-container .message video,
+    .chat-container .message img.poster {
       width: 100%;
     }
 
@@ -341,7 +342,7 @@
 
     }
 
-    @media only screen and (max-width: 950px){
+    @media only screen and (max-width: 850px){
       .composer-container {
          width:32.5%;
          margin:0.25% 0.25%;
@@ -352,38 +353,28 @@
         margin:0.25% 0.25%;
       }
 
-
       .chat-container .message span.text {
         font-size: 26px;
-      }
-
-      nav .clients,
-      nav .room,
-      nav button {
-        position: absolute;
-        bottom: -1px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        top: auto;
       }
 
       nav .room {
         right: 12px;
       }
 
-      nav button {
-        right: 265px;
+      nav .title {
+        line-height: 1em;
+        width: 100%;
+        display: block;
       }
 
-      nav .clients {
-        right: 185px;
+      nav .pull-right {
+        position: static;
+        display: block;
       }
 
       nav .content {
         font-size: 11px;
-        padding-bottom: 10px;
+        padding: 10px 0;
         display: inline-block;
       }
 
@@ -412,15 +403,35 @@
 
 </head>
 <body>
-  <nav data-hook="top-bar"></nav>
+  <nav data-hook="top-bar">
+    <span class="content">
+      <span class="title">
+        <a href= "/" class="typr">Typr.</a> Send short messages with video, 8 seconds max.
+        <span class="subtitle">Also with private room support, here's a random one: <a data-hook="rand-link" href="">http://typr.club/the-very-random</a></span>
+    </span>
+  </nav>
   <div class="notifications" data-hook="notifications"></div>
   <div data-hook="rooms" class="rooms-container"></div>
-  <script src="jspm_packages/system.js"></script>
-  <script src="config.js"></script>
-  <script src="build.js"></script>
-  <script>
-    System.import('lib/main.js');
-  </script>
+
+  {{#if res}}
+  <div class="inline-hack">
+    <div class="chat-container">
+    {{#each res}}
+      <div class="message">
+        <img src={{ poster }} class="poster" />
+        <span class="text">{{text}}</span>
+      </div>
+    {{/each}}
+    </div>
+  </div>
+  {{else}}
+    <script src="jspm_packages/system.js"></script>
+    <script src="config.js"></script>
+    <script src="build.js"></script>
+    <script>
+      System.import('lib/main.js');
+    </script>
+ {{/if}}
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
