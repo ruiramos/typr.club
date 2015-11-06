@@ -24,7 +24,7 @@ function _pushNotifications(ids, room){
 
   ids.forEach(function(subscription){
     _lastNotification[subscription] = {
-      body: 'Click here to open typr.club!',
+      body: 'Click here to open typr.club/'+room,
       title: 'New message on ' + room + '!',
       icon: '/typr-192.jpg',
       tag: 'new-message',

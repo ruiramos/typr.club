@@ -106,7 +106,6 @@ function upload(response, postData, request){
 
           db.save(message.data, room);
           io.broadcastDelayed(message, room)
-          push.notify(room);
 
           response.statusCode = 200;
           response.writeHead(200, {

@@ -1,5 +1,6 @@
 
 var db = require('./db');
+var push = require('./push-notifications');
 var fs = require('fs');
 
 var clients = {};
@@ -97,6 +98,11 @@ function broadcast(msg, room){
   clients[room].forEach(function each(client) {
     client.send(JSON.stringify(msg));
   });
+
+ // if(!msg.allMine){
+    push.notify(room);
+  //}
+
 }
 
 function broadcastDelayed(msg, room){
@@ -110,9 +116,6 @@ function broadcastDelayed(msg, room){
       broadcastTimeout =  _sendBroadcastBuffer.call(self);
     }, 100);
   }
-
-
-
 }
 
 function _sendBroadcastBuffer(){
