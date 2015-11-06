@@ -1,5 +1,7 @@
 
 var db = require('./db');
+var fs = require('fs');
+
 var clients = {};
 
 var WebSocketServer = require('ws').Server,
