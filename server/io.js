@@ -99,9 +99,13 @@ function broadcast(msg, room){
     client.send(JSON.stringify(msg));
   });
 
- // if(!msg.allMine){
+
+  // problems to solve:
+   // 1 . initial load
+   // 2 . discard notification client side when the page is focused!!!!
+   if(msg.type === 'message:new'){
     push.notify(room);
-  //}
+  }
 
 }
 
