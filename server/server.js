@@ -4,7 +4,11 @@ var http = require('http'),
     path = require('path');
     config = {
       port: 8000,
-      wsPort: 8008,
+      wsPorts: {
+        dev: 8008,
+        prod: 5282
+      },
+
       upload_dir: path.resolve(__dirname, './uploads'),
 
       s3: {
@@ -15,6 +19,10 @@ var http = require('http'),
 
       s3_enabled: false
     }
+
+function isProd(){
+  return !!process.env.prod;
+}
 
 function start(route, handle) {
 
@@ -35,8 +43,8 @@ function start(route, handle) {
     }
 
     http.createServer(onRequest).listen(config.port);
-    io.connect(config.wsPort);
-    console.log('Listening on port', config.port)
+    io.connect(isProd(), config.wsPorts);
+    console.log('Listening on port', config.port, 'in env', (isProd() ? 'PROD' : 'DEV'))
 }
 
 exports.start = start;

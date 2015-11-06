@@ -7,8 +7,40 @@ var WebSocketServer = require('ws').Server,
     broadcastBuffer = {},
     broadcastTimeout;
 
-function connect(port){
-  wss = new WebSocketServer({ port: port });
+function _createWssSocket(port){
+  var cfg = {
+      ssl: true,
+      port: port,
+      ssl_key: '/home/ruiramos/certs/ruiramos.com.key',
+      ssl_cert: '/home/ruiramos/certs/9e0416fbef7c0ae7.crt'
+  };
+
+  var httpsServ = require('https');
+
+  // dummy request processing
+  var processRequest = function( req, res ) {
+    res.writeHead(200);
+    res.end("All glory to WebSockets!\n");
+  };
+
+  app = httpsServ.createServer({
+    // providing server with  SSL key/cert
+    key: fs.readFileSync( cfg.ssl_key ),
+    cert: fs.readFileSync( cfg.ssl_cert )
+  }, processRequest ).listen( cfg.port );
+
+  return new WebSocketServer({server: app});
+}
+
+function connect(isProd, ports){
+  var wss;
+
+  if(!isProd){
+    wss = new WebSocketServer({ port: ports.dev }); // ws://localhost:8008 for dev
+  } else {
+    wss = _createWssSocket(ports.prod); // in prod, create a wss socket on port 5282
+  }
+
   var self = this;
 
   wss.on('connection', function connection(ws) {

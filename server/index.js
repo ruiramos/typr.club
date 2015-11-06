@@ -12,3 +12,7 @@ routes['/thumb'] = handlers.thumb;
 routes._static = handlers.serveStatic;
 
 server.start(router.route, routes);
+
+process.on('SIGINT', function() {
+  process.exit();
+});

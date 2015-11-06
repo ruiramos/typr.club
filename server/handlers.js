@@ -134,10 +134,9 @@ function thumb(response, _, request){
         setTimeout(function(){
           page.evaluate(function () { return document.body; }, function (result) {
             page.render(filename, function(image){
-              response.writeHead(200, {
-                  'Content-Type': 'image/png'
-              });
+              response.writeHead(200, {'Content-Type': 'image/png'});
               response.end(fs.readFileSync(filename));
+              phantom.exit();
             });
           });
 
