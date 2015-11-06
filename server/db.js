@@ -4,6 +4,8 @@ var redis = require("redis"),
 
 var messages = {};
 
+var ROOM_MESSAGE_EXPIRY = (60 * 60 * 24 * 7 * 2) // 2 weeks
+
 // number of messages loaded in each request
 var MAX = 25;
 
@@ -16,7 +18,7 @@ var locks = {
 function save(msg, room){
   if(messages[room]){
     messages[room].push(msg);
-    client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', (60 * 60 * 24 * 7), redis.print);
+    client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', ROOM_MESSAGE_EXPIRY, redis.print);
 
   } else {
     // trying to get again just to be sure
@@ -115,7 +117,7 @@ function remove(ids, room, number){
       _removeWithSplice(ids[0], room, number);
     }
 
-    client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', (60 * 60 * 24 * 7), redis.print);
+    client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', ROOM_MESSAGE_EXPIRY, redis.print);
   } else {
     this.getAll(room, function(){
       if(messages[room]){
@@ -125,7 +127,7 @@ function remove(ids, room, number){
           _removeWithSplice(ids[0], room, number);
         }
 
-        client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', (60 * 60 * 24 * 7), redis.print);
+        client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', ROOM_MESSAGE_EXPIRY, redis.print);
       }
     });
   }
