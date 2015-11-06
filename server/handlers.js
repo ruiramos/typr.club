@@ -5,6 +5,7 @@ var fs = require('fs'),
     url = require('url'),
     secrets = require('./secrets'),
     io = require('./io'),
+    push = require('./push-notifications'),
     AWS = require('aws-sdk'),
     phantom = require('phantom'),
     Handlebars = require('handlebars');
@@ -19,14 +20,17 @@ process.env.AWS_SECRET_ACCESS_KEY = secrets.s3_secret;
 function home(response, _, request){
   if(_getQueryObject(request).render){
     homeWithRender(response, _, request);
+    return;
 
   } else {
     response.writeHead(200, {
         'Content-Type': 'text/html'
     });
 
+    var pathName = url.parse(request.url).pathname.slice(1);
+
     var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
-    response.end(template({currentRoom: 'world'}));
+    response.end(template({currentRoom: pathName || 'world'}));
   }
 };
 
@@ -102,6 +106,7 @@ function upload(response, postData, request){
 
           db.save(message.data, room);
           io.broadcastDelayed(message, room)
+          push.notify(room);
 
           response.statusCode = 200;
           response.writeHead(200, {
@@ -123,6 +128,8 @@ function thumb(response, _, request){
   phantom.create(function(ph) {
     return ph.createPage(function(page) {
       page.setViewportSize(1024, 768);
+      page.settings.loadImages = true;
+
       return page.open("http://typr.club/"+id+"?render=true", function(status) {
         setTimeout(function(){
           page.evaluate(function () { return document.body; }, function (result) {
@@ -149,7 +156,8 @@ function serveStatic(response, pathname, postData){
         'wav': 'audio/wav',
         'ogg': 'audio/ogg',
         'gif': 'image/gif',
-        'png': 'image/png'
+        'png': 'image/png',
+        'jpg': 'image/jpg'
       };
 
   response.writeHead(200, {
@@ -214,12 +222,40 @@ function _getQueryObject(request){
   return queryObject;
 }
 
+function subscription(response, postData, request){
+  var gcmServer = 'https://android.googleapis.com/gcm/send/';
+
+  var data = JSON.parse(postData);
+  var id = data.endpoint.split(gcmServer)[1];
+
+  db.updateUserRegistration(id, data.rooms);
+
+  response.end('ok')
+}
+
+function getNotification(response, postData, request){
+  var endpoint = JSON.parse(postData).endpoint;
+  if(!endpoint) return;
+
+  var rId = endpoint.slice(endpoint.lastIndexOf('/') + 1);
+  var msg = push.getNotificationFromUser(rId);
+
+  response.end(JSON.stringify({
+    body: msg.body,
+    title: msg.title,
+    icon: msg.icon,
+    tag: msg.tag,
+    room: msg.room
+  }))
+}
 
 module.exports = {
   home: home,
   api: api,
   upload: upload,
   thumb: thumb,
+  subscription: subscription,
+  getNotification: getNotification,
   serveStatic: serveStatic
 }
 

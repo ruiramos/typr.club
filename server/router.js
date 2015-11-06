@@ -4,7 +4,8 @@ function route(handle, pathname, response, postData, request){
     'js': true,
     'webm': true,
     'png': true,
-    'json': true
+    'json': true,
+    'jpg': true
   };
 
   var ext = pathname.split('.').pop();

@@ -152,7 +152,22 @@ function _removeWithSplice(id, room, number){
     temp.splice(index, number);
     messages[room] = temp.reverse();
   }
+}
 
+/**
+  Notifications
+
+**/
+
+function updateUserRegistration(id, rooms, cb){
+  if(!rooms) return;
+  rooms.forEach(function(room){
+    client.sadd('vchat:notifications:' + room, id, cb);
+  })
+}
+
+function getNotificationsIdForRoom(room, cb){
+  client.smembers('vchat:notifications:' + room, cb);
 }
 
 module.exports = {
@@ -162,6 +177,9 @@ module.exports = {
   remove: remove,
 
   canUserPost: canUserPost,
-  setUserLock: setUserLock
+  setUserLock: setUserLock,
+
+  updateUserRegistration: updateUserRegistration,
+  getNotificationsIdForRoom: getNotificationsIdForRoom
 };
 
