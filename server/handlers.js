@@ -243,7 +243,8 @@ function getNotification(response, postData, request){
     title: msg.title,
     icon: msg.icon,
     tag: msg.tag,
-    room: msg.room
+    room: msg.room,
+    data: msg.data,
   }))
 }
 
