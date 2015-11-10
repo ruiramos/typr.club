@@ -165,7 +165,7 @@ function updateUserRegistration(id, rooms, uuid, cb){
   if(!rooms) return;
   rooms.forEach(function(room){
     client.sadd('vchat:notifications:' + room, id);
-    client.hset('vchat:userids', id, uuid) // gcm id -> uuid
+    client.hset('vchat:userids', id, uuid, function(){}) // gcm id -> uuid
   })
 }
 
