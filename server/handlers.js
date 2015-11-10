@@ -226,7 +226,7 @@ function subscription(response, postData, request){
   var data = JSON.parse(postData);
   var id = data.endpoint.split(gcmServer)[1];
 
-  db.updateUserRegistration(id, data.rooms);
+  db.updateUserRegistration(id, data.rooms, data.uuid);
 
   response.end('ok')
 }

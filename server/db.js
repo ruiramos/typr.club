@@ -161,15 +161,51 @@ function _removeWithSplice(id, room, number){
 
 **/
 
-function updateUserRegistration(id, rooms, cb){
+function updateUserRegistration(id, rooms, uuid, cb){
   if(!rooms) return;
   rooms.forEach(function(room){
-    client.sadd('vchat:notifications:' + room, id, cb);
+    client.sadd('vchat:notifications:' + room, id);
+    client.hset('vchat:userids', id, uuid) // gcm id -> uuid
   })
 }
 
 function getNotificationsIdForRoom(room, cb){
   client.smembers('vchat:notifications:' + room, cb);
+}
+
+function filterUserIdsForNotifications(ids, messages, cb){
+  var filteredIds = [];
+  var uniqueUuid = _getUniqueUuidFrom(messages);
+
+  client.hmget('vchat:userids', ids, function(err, uuids){
+    uuids.forEach(function(uuid, i){
+      // decide
+      if(!uniqueUuid || uniqueUuid !== uuid){
+        filteredIds.push(ids[i]);
+      }
+    });
+
+    cb(filteredIds);
+  })
+}
+
+function _getUniqueUuidFrom(messages){
+  var uuids = messages.data.map(function(msg){ return msg.uuid; });
+  var uniq = uuids.reduce(function(memo, el){
+    if(memo.indexOf(el) === -1){
+      memo.push(el);
+    }
+
+    return memo;
+  }, []);
+
+  if(uniq.length === 1){
+    // they're all the same
+    return uniq[0];
+  } else {
+    // just for clarity
+    return undefined;
+  }
 }
 
 module.exports = {
@@ -182,6 +218,7 @@ module.exports = {
   setUserLock: setUserLock,
 
   updateUserRegistration: updateUserRegistration,
-  getNotificationsIdForRoom: getNotificationsIdForRoom
+  getNotificationsIdForRoom: getNotificationsIdForRoom,
+  filterUserIdsForNotifications: filterUserIdsForNotifications
 };
 

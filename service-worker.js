@@ -16,11 +16,9 @@ self.addEventListener('push', function(event) {
         clients.matchAll({
             type: "window"
           }).then(function(clientList) {
-            console.log(clientList);
+            console.log(clientList, JSON.stringify(clientList[0]));
 
             if(clientList[0] && clientList[0].focused) return Promise.reject('focused');
-
-            subscription.uuid = uuid;
 
             return fetch('/api/getNotification', {
               method: 'POST',
@@ -33,19 +31,6 @@ self.addEventListener('push', function(event) {
               return response.json();
             })
             .then(function(data){
-              var messageData = data.data.data; // lol
-
-              if(uuid){
-                var show = false;
-                messageData.forEach(function(msg){
-                  if(msg.uuid !== uuid) show = true;
-                })
-
-                if(!show){
-                  return Promise.reject('all mine');
-                }
-              }
-
               var title = data.title;
               var body = data.body;
               var icon = data.icon;
@@ -67,7 +52,7 @@ self.addEventListener('push', function(event) {
             })
           })
           .catch(function(err){
-            console.log('window was focused!');
+            console.log('window was focused!', err);
           })
       }
     )
@@ -85,6 +70,7 @@ self.addEventListener('notificationclick', function(event) {
   }).then(function(clientList) {
     for (var i = 0; i < clientList.length; i++) {
       var client = clientList[i];
+      console.log(client.url)
       if (client.url.indexOf('/'+room) > -1 && 'focus' in client)
         return client.focus();
     }
@@ -94,17 +80,9 @@ self.addEventListener('notificationclick', function(event) {
 
 });
 
-self.addEventListener('message', function(event) {
-  var data = JSON.parse(event.data);
-  console.log(event.data, JSON.parse(event.data), event)
-  if(!data) return;
-
-  if(data.uuid){ uuid = data.uuid; }
-  console.log(data.uuid, uuid)
-
-  self.uuid = data.uuid;
-  console.log(data.uuid, uuid)
-
-
-})
+// self.addEventListener('message', function(event) {
+//   var data = JSON.parse(event.data);
+//   if(!data) return;
+//   if(data.uuid){ uuid = data.uuid; }
+// })
 

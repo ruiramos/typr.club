@@ -10,7 +10,7 @@ var gcmUrl = 'https://android.googleapis.com/gcm/send';
 
 var _lastNotification = {};
 
-function _pushNotifications(ids, room, messages){
+function _pushNotifications(ids, room){
   var data = {registration_ids: ids};
 
   request.post({
@@ -29,8 +29,7 @@ function _pushNotifications(ids, room, messages){
       title: 'New message on ' + room + '!',
       icon: '/typr-192.jpg',
       tag: 'new-message',
-      room: room,
-      data: messages
+      room: room
     }
   })
 }
@@ -38,7 +37,9 @@ function _pushNotifications(ids, room, messages){
 module.exports = {
   notify: function(room, messages){
     db.getNotificationsIdForRoom(room, function(err, ids){
-      _pushNotifications(ids, room, messages);
+      db.filterUserIdsForNotifications(ids, messages, function(newIds){
+        _pushNotifications(newIds, room);
+      })
     })
   },
 
