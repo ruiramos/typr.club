@@ -18,6 +18,7 @@ var locks = {
 function save(msg, room){
   if(messages[room]){
     messages[room].push(msg);
+    console.log('setting', room, messages[room])
     client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', ROOM_MESSAGE_EXPIRY, redis.print);
 
   } else {
@@ -178,12 +179,14 @@ function filterUserIdsForNotifications(ids, messages, cb){
   var uniqueUuid = _getUniqueUuidFrom(messages);
 
   client.hmget('vchat:userids', ids, function(err, uuids){
-    uuids.forEach(function(uuid, i){
-      // decide
-      if(!uniqueUuid || uniqueUuid !== uuid){
-        filteredIds.push(ids[i]);
-      }
-    });
+    if(uuids){
+      uuids.forEach(function(uuid, i){
+        // decide
+        if(!uniqueUuid || uniqueUuid !== uuid){
+          filteredIds.push(ids[i]);
+        }
+      });
+    }
 
     cb(filteredIds);
   })
