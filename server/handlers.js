@@ -56,7 +56,7 @@ function api(response, data, request){
       'Content-Type': 'text/html'
   });
 
-  var queryObj = _getQueryObject(request);
+  var queryObject = _getQueryObject(request);
 
   if(queryObject.key === secrets.key){
     if(queryObject.remove){
