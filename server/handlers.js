@@ -101,7 +101,7 @@ function upload(response, postData, request){
           var message = {
             type: 'message:new',
             data: {
-              video: serverWebmFilePath + data.ETag, //data.Location,
+              video: data.Location, //serverWebmFilePath + data.ETag, //data.Location,
               text: content.text,
               uuid: content.uuid
             }
