@@ -13,6 +13,7 @@ var fs = require('fs'),
 
 var filePathBase = './uploads/';
 var s3 = new AWS.S3({region: 'eu-west-1'});
+var serverWebmFilePath = 'https://files-webm.typr.club/';
 
 process.env.AWS_ACCESS_KEY_ID = secrets.s3_key;
 process.env.AWS_SECRET_ACCESS_KEY = secrets.s3_secret;
@@ -55,7 +56,7 @@ function api(response, data, request){
       'Content-Type': 'text/html'
   });
 
-  var queryObj = _getQueryObj(request);
+  var queryObj = _getQueryObject(request);
 
   if(queryObject.key === secrets.key){
     if(queryObject.remove){
@@ -94,11 +95,13 @@ function upload(response, postData, request){
           response.statusCode = 500;
           response.end();
 
+          console.log(data.Location, data)
+
         } else {
           var message = {
             type: 'message:new',
             data: {
-              video: data.Location,
+              video: serverWebmFilePath + data.ETag, //data.Location,
               text: content.text,
               uuid: content.uuid
             }
@@ -191,7 +194,7 @@ function _upload(response, file, fn) {
     var params = {
       Key: fileRootName + '.' + fileExtension,
       ContentType: 'video/webm',
-      Bucket: 'typr.club',
+      Bucket: 'files-webm.typr.club',
       Body: new Buffer(file.contents, "base64")
     };
 
