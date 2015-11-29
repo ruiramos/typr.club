@@ -5,7 +5,11 @@ function route(handle, pathname, response, postData, request){
     'webm': true,
     'png': true,
     'json': true,
-    'jpg': true
+    'jpg': true,
+    'css': true,
+    'eot': true,
+    'woff2': true,
+    'ttf': true
   };
 
   var ext = pathname.split('.').pop();

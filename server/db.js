@@ -32,8 +32,8 @@ function save(msg, room){
 }
 
 function setUserLock(uuid, room, ip){
-  // 1 per 2 sec (per uuid)
-  client.set("vchat:user:"+uuid+room, 'locked', 'EX', 2);
+  // 1 per 1 sec (per uuid)
+  client.set("vchat:user:"+uuid+room, 'locked', 'EX', 1);
 
   // limits per minute (ip)
   var userMinuteKey = "vchat:userip:"+ip
@@ -134,6 +134,26 @@ function remove(ids, room, number){
   }
 }
 
+function videoLiked(id, room, callback){
+  this.getAll(room, function(msgs){
+
+    var theMessage;
+    msgs.forEach(function(msg){
+      var isMsg = (msg.id ? msg.id === id : (msg.video.indexOf(id) > -1));
+      if(isMsg){
+        theMessage = msg;
+        msg.likes = msg.likes ? +msg.likes + 1 : 1;
+      }
+    })
+
+    if(theMessage){
+      client.set("vchat:"+room, JSON.stringify(msgs), 'EX', ROOM_MESSAGE_EXPIRY, redis.print);
+      callback(theMessage);
+    }
+
+  })
+}
+
 function _removeWithIds(ids, room){
   messages[room] = messages[room].filter(function(el){
     return ids.every(function(id){ return (el.video.indexOf(id+'.webm') === -1); })
@@ -216,6 +236,7 @@ module.exports = {
   getWithOffset: getWithOffset,
   getAll: getAll,
   remove: remove,
+  videoLiked: videoLiked,
 
   canUserPost: canUserPost,
   setUserLock: setUserLock,

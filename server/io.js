@@ -73,6 +73,15 @@ function connect(isProd, ports){
             ws.send(JSON.stringify({type: 'message:load', data: videos, room: data.room}));
           })
           break;
+
+        case 'like':
+          console.log(data);
+          db.videoLiked(data.id, data.room, function(message){
+            clients[data.room].forEach(function(client){
+              client.send(JSON.stringify({type: 'like', room: data.room, id: data.id, likes: message.likes}))
+            });
+          });
+          break;
       }
     })
 
