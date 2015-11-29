@@ -95,13 +95,12 @@ function upload(response, postData, request){
           response.statusCode = 500;
           response.end();
 
-          console.log(data.Location, data)
-
         } else {
           var message = {
             type: 'message:new',
             data: {
-              video: data.Location, //serverWebmFilePath + data.ETag, //data.Location,
+              id: data.Location.substring(data.Location.lastIndexOf('/') + 1, data.Location.lastIndexOf('.')),
+              video: data.Location,
               text: content.text,
               uuid: content.uuid
             }
@@ -158,7 +157,11 @@ function serveStatic(response, pathname, postData){
         'ogg': 'audio/ogg',
         'gif': 'image/gif',
         'png': 'image/png',
-        'jpg': 'image/jpg'
+        'jpg': 'image/jpg',
+        'css': 'text/css',
+        'eot': 'application/vnd.ms-fontobject',
+        'woff2': 'application/font-woff2',
+        'ttf': 'application/octet-stream',
       };
 
   response.writeHead(200, {
