@@ -254,6 +254,17 @@ function getNotification(response, postData, request){
   }))
 }
 
+function getTextForId(response, _, request){
+  var id = _getQueryObject(request).id;
+  if(!id){
+    response.end('no-id');
+  } else {
+    db.getTextForId(id, function(err, data){
+      response.end(data);
+    })
+  }
+}
+
 module.exports = {
   home: home,
   api: api,

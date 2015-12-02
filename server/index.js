@@ -8,6 +8,7 @@ routes['/upload'] = handlers.upload;
 routes['/api'] = handlers.api;
 routes['/api/subscription'] = handlers.subscription;
 routes['/api/getNotification'] = handlers.getNotification;
+routes['/api/getTextForId'] = handlers.getTextForId;
 routes['/thumb'] = handlers.thumb;
 routes._static = handlers.serveStatic;
 

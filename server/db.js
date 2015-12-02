@@ -20,6 +20,7 @@ function save(msg, room){
     messages[room].push(msg);
     console.log('setting', room, messages[room])
     client.set("vchat:"+room, JSON.stringify(messages[room]), 'EX', ROOM_MESSAGE_EXPIRY, redis.print);
+    client.set("vchat:id:"+msg.id, msg.text);
 
   } else {
     // trying to get again just to be sure
@@ -177,6 +178,10 @@ function _removeWithSplice(id, room, number){
   }
 }
 
+function getTextForId(id, cb){
+  client.get("vchat:id:"+id, cb);
+}
+
 /**
   Notifications
 
@@ -237,6 +242,7 @@ module.exports = {
   getAll: getAll,
   remove: remove,
   videoLiked: videoLiked,
+  getTextForId: getTextForId,
 
   canUserPost: canUserPost,
   setUserLock: setUserLock,
