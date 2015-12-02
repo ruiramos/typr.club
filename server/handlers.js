@@ -271,6 +271,7 @@ module.exports = {
   upload: upload,
   thumb: thumb,
   subscription: subscription,
+  getTextForId: getTextForId,
   getNotification: getNotification,
   serveStatic: serveStatic
 }
