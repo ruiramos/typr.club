@@ -130,18 +130,19 @@ function thumb(response, _, request){
   phantom.create(function(ph) {
     return ph.createPage(function(page) {
       page.setViewportSize(1024, 768);
+      page.set('settings.loadImages', true)
 
-      return page.open("http://typr.club/"+id+"?render=true", function(status) {
+      return page.open("https://typr.club/"+id+"?render=true", function(status) {
         setTimeout(function(){
           page.evaluate(function () { return document.body; }, function (result) {
             page.render(filename, function(image){
               response.writeHead(200, {'Content-Type': 'image/png'});
               response.end(fs.readFileSync(filename));
-              phantom.exit();
+              ph.exit();
             });
           });
 
-        }, 4000);
+        }, 5000);
       });
     });
   })
