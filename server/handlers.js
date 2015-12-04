@@ -44,7 +44,7 @@ function homeWithRender(response, _, request){
 
       res.forEach(function(r){
         var id = r.video.slice(r.video.lastIndexOf('/'), r.video.lastIndexOf('.'));
-        r.poster = 'https://s3-eu-west-1.amazonaws.com/files-mp4.typr.club' +id+ '.png'
+        r.poster = 'http://s3-eu-west-1.amazonaws.com/files-mp4.typr.club' +id+ '.png'
       })
 
       var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
@@ -129,8 +129,7 @@ function thumb(response, _, request){
 
   phantom.create({parameters: {'ignore-ssl-errors': 'yes', 'load-images': 'yes', 'local-to-remote-url-access': 'yes'}}, function(ph) {
     return ph.createPage(function(page) {
-      page.setViewportSize({width: 1440, height: 800});
-      page.set('settings.loadImages', true)
+      page.setViewportSize(1440, 800);
 
       return page.open("http://localhost:8000/"+id+"?render=true", function(status) {
         setTimeout(function(){
@@ -142,7 +141,7 @@ function thumb(response, _, request){
             });
           });
 
-        }, 5000);
+        }, 4000);
       });
     });
   })
