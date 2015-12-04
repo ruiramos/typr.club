@@ -43,7 +43,8 @@ function homeWithRender(response, _, request){
       response.writeHead(200, {'Content-Type': 'text/html'});
 
       res.forEach(function(r){
-        r.poster = r.video.replace('webm', 'png').replace('typr.club', 'typr.club-mp4');
+        var id = r.video.slice(r.video.lastIndexOf('/'), r.video.lastIndexOf('.'));
+        r.poster = 'https://files-mp4.typr.club/' + id + '.png';
       })
 
       var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
@@ -129,7 +130,6 @@ function thumb(response, _, request){
   phantom.create(function(ph) {
     return ph.createPage(function(page) {
       page.setViewportSize(1024, 768);
-      page.settings.loadImages = true;
 
       return page.open("http://typr.club/"+id+"?render=true", function(status) {
         setTimeout(function(){
