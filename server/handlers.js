@@ -127,9 +127,9 @@ function thumb(response, _, request){
   var id = _getQueryObject(request).id;
   var filename = path.resolve(__dirname, './thumbnails/' + id + '_thumb.png');
 
-  phantom.create(function(ph) {
+  phantom.create({parameters: {'ignore-ssl-errors': 'yes', 'load-images': 'yes', 'local-to-remote-url-access': 'yes'}}, function(ph) {
     return ph.createPage(function(page) {
-      page.setViewportSize(1440, 800);
+      page.setViewportSize({width: 1440, height: 800});
       page.set('settings.loadImages', true)
 
       return page.open("http://localhost:8000/"+id+"?render=true", function(status) {
