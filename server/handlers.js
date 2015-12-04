@@ -129,10 +129,10 @@ function thumb(response, _, request){
 
   phantom.create(function(ph) {
     return ph.createPage(function(page) {
-      page.setViewportSize(1024, 768);
+      page.setViewportSize(1440, 800);
       page.set('settings.loadImages', true)
 
-      return page.open("https://typr.club/"+id+"?render=true", function(status) {
+      return page.open("http://localhost:8000/"+id+"?render=true", function(status) {
         setTimeout(function(){
           page.evaluate(function () { return document.body; }, function (result) {
             page.render(filename, function(image){
