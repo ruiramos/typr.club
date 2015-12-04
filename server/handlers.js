@@ -44,7 +44,7 @@ function homeWithRender(response, _, request){
 
       res.forEach(function(r){
         var id = r.video.slice(r.video.lastIndexOf('/'), r.video.lastIndexOf('.'));
-        r.poster = 'https://files-mp4.typr.club/' + id + '.png';
+        r.poster = 'https://files-mp4.typr.club' + id + '.png';
       })
 
       var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
