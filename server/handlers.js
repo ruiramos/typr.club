@@ -31,7 +31,10 @@ function home(response, _, request){
     var pathName = url.parse(request.url).pathname.slice(1);
 
     var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
-    response.end(template({currentRoom: pathName || 'world'}));
+    response.end(template({
+      currentRoom: pathName,
+      ogImageUrl: pathName ? 'https://typr.club/thumb?id=' + pathName : 'https://typr.club/screenshot.png';
+    }));
   }
 };
 
