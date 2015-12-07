@@ -137,7 +137,7 @@ function thumb(response, _, request){
 
       return page.open("http://localhost:8000/"+id+"?render=true", function(status) {
         setTimeout(function(){
-          page.evaluate(function () { return document.body; }, function (result) {
+          page.evaluate(function () { document.body.bgColor = 'white'; return document.body; }, function (result) {
             page.render(filename, {quality: 80}, function(image){
               response.writeHead(200, {'Content-Type': 'image/jpeg'});
               response.end(fs.readFileSync(filename));
