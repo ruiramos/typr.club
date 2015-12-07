@@ -4,15 +4,14 @@
   <meta charset="UTF-8">
   <title> ~ typr.club</title>
   <meta name="viewport" content="width=device-width" />
-  <meta name="description" content="An app of short videos and chat." />
+  <meta name="description" content="An app with short videos and chat." />
 
-  <meta property="og:title" content="typr.club" />
-  <meta property="og:description" content="An app of short videos and chat." />
-  <meta property="og:url" content="http://typr.club" />
+  <meta property="og:title" content="~ typr.club - {{ currentRoom }}" />
+  <meta property="og:description" content="An app with short videos and chat." />
   <meta property="og:image" content="http://typr.club/thumb?id={{ currentRoom }}" />
   <meta property="og:image:type" content="image/png" />
-  <meta property="og:image:width" content="1024" />
-  <meta property="og:image:height" content="768" />
+  <meta property="og:image:width" content="1440" />
+  <meta property="og:image:height" content="800" />
 
   <link rel="manifest" href="/manifest.json">
 
@@ -163,17 +162,21 @@
       opacity: 0.55;
     }
 
+
+    .chat-container .message .share-overlay,
     .chat-container .message .overlay {
       opacity: 0;
     }
 
+    .chat-container .message:not(.selfie) .sharing-blocker,
+    .chat-container .message:not(.selfie) .share-overlay,
     .chat-container .message:not(.selfie) .overlay {
       position: absolute;
-      z-index: 9999;
+      z-index: 9990;
       top: 0;
       left: 0;
+      right: -1px;
       font-size:24px;
-      width: 100%;
       height: 100%;
       background: #eee;
       opacity: 0;
@@ -182,6 +185,12 @@
 
       transition: opacity 200ms ease-out;
     }
+
+    .chat-container .message .share-overlay .sharing-blocker {
+      z-index: 9991;
+      opacity: 1;
+    }
+
 
     .chat-container .message:not(.selfie):hover .overlay {
       opacity: 0.275;
@@ -210,6 +219,10 @@
     .icon-container .mdi-share:hover {
       color: blue;
       cursor: pointer;
+    }
+
+    .chat-container .message:not(.selfie) .share-overlay.in {
+      opacity: 0.95;
     }
 
     .chat-container .message.selfie .heart-count {
@@ -256,6 +269,39 @@
 
     .heart-count.animate i.mdi-heart {
       animation: heart-animation 0.9s ease-out;
+    }
+
+    .chat-container .message .share-overlay {
+      font-size: 14px !important;
+    }
+
+    .chat-container .message .share-overlay .slack-share {
+      margin-top: 12%;
+    }
+
+    .chat-container .message .share-overlay .slack-share i {
+      cursor: pointer;
+      opacity: 0.5;
+      margin-left: 3px;
+      transition: opacity 200ms ease-out;
+    }
+
+    .chat-container .message .share-overlay .slack-share i:hover {
+      opacity: 0.7;
+    }
+
+    .chat-container .message .share-overlay label {
+      margin:7% 0 4px;
+      display: inline-block;
+      font-size: 0.85em;
+      color: #444;
+    }
+
+    .chat-container .message .share-overlay input {
+      width: 90%;
+      font-size:0.9em;
+      margin:0px auto;
+      padding: 4px 8px;
     }
 
     .room-title {
@@ -425,6 +471,105 @@
       background: yellow;
     }
 
+    button {
+      cursor: pointer;
+    }
+
+    button.btn-transparent {
+      background: transparent;
+      border: 0px;
+      padding: 5px;
+    }
+
+    button.btn {
+      margin: 10px auto;
+      padding: 5px 22px;
+      background-color: #999;
+      color: white;
+      border: 0px;
+      border-top:2px solid transparent;
+      border-bottom:2px solid #666;
+      display: block;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size:.9em;
+      outline: none;
+
+      transition: background-color 80ms ease-out,
+                  border-bottom-color 80ms ease-out,
+                  color 80ms ease-out;
+    }
+
+    button.btn:hover {
+      border-bottom-color: #444;
+    }
+
+    button.btn:active {
+      border-top: 2px solid #666;
+      background-color: #444;
+      border-bottom-color: #444;
+      top: 1px;
+      position: relative;
+    }
+
+    .btn.btn-fb {
+      background-color: #3b5998;
+      border-bottom: 2px solid #283B65;
+    }
+
+    .btn.btn-fb:hover {
+      border-bottom-color: #080D19;
+    }
+
+    .btn.btn-fb:active {
+      border-top: 2px solid #3b5998;
+      background-color: #283B65;
+      border-bottom-color: #283B65;
+    }
+
+    .btn.btn-slack {
+      color: black;
+      background-color: white;
+      border-bottom: 2px solid #ccc;
+    }
+
+    .btn.btn-slack:hover {
+      border-bottom-color: #aaa;
+    }
+
+    .btn.btn-slack:active {
+      border-top: 2px solid #dfdfdf;
+      background-color: #ccc;
+      border-bottom-color: #ccc;
+    }
+
+/*    button.btn.btn-cta {
+      background-color: #D896A0;
+      border-bottom:2px solid #AB6B75;
+    }
+
+    button.btn.btn-cta:hover {
+      border-bottom-color: #7D4E54;
+    }
+
+    button.btn.btn-cta:active {
+      border-top: 2px solid #D896A0;
+      background-color: #AB6B75;
+      border-bottom-color: #AB6B75;
+    }*/
+
+    button.btn-large {
+      min-width: 165px;
+    }
+
+    butotn.btn-primary {
+      background: #999;
+    }
+
+    .pull-right {
+      float: right;
+    }
+
     /* media queries!!! */
 
     @media all and (min-width: 1650px){
@@ -440,7 +585,20 @@
 
     }
 
+    @media only screen and (max-width: 1200px){
+      .chat-container .message .share-overlay {
+        font-size: 12px !important;
+      }
+      .chat-container .message .share-overlay label {
+        margin:5% 0 4px;
+      }
+    }
+
     @media only screen and (max-width: 850px){
+      .chat-container .message .share-overlay {
+        font-size: 11px !important;
+      }
+
       .composer-container {
          width:32.5%;
          margin:0.25% 0.25%;

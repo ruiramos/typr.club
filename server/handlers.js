@@ -130,6 +130,7 @@ function thumb(response, _, request){
   phantom.create({parameters: {'ignore-ssl-errors': 'yes', 'load-images': 'yes', 'local-to-remote-url-access': 'yes'}}, function(ph) {
     return ph.createPage(function(page) {
       page.setViewportSize(1440, 800);
+      page.set('clipRect', {top: 0, left: 0, width: 1440, height: 800});
 
       return page.open("http://localhost:8000/"+id+"?render=true", function(status) {
         setTimeout(function(){
@@ -141,7 +142,7 @@ function thumb(response, _, request){
             });
           });
 
-        }, 4000);
+        }, 2500);
       });
     });
   })
