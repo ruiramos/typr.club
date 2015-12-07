@@ -128,7 +128,7 @@ function upload(response, postData, request){
 
 function thumb(response, _, request){
   var id = _getQueryObject(request).id;
-  var filename = path.resolve(__dirname, './thumbnails/' + id + '_thumb.png');
+  var filename = path.resolve(__dirname, './thumbnails/' + id + '_thumb.jpg');
 
   phantom.create({parameters: {'ignore-ssl-errors': 'yes', 'load-images': 'yes', 'local-to-remote-url-access': 'yes'}}, function(ph) {
     return ph.createPage(function(page) {
@@ -138,14 +138,14 @@ function thumb(response, _, request){
       return page.open("http://localhost:8000/"+id+"?render=true", function(status) {
         setTimeout(function(){
           page.evaluate(function () { return document.body; }, function (result) {
-            page.render(filename, function(image){
-              response.writeHead(200, {'Content-Type': 'image/png'});
+            page.render(filename, {quality: 80}, function(image){
+              response.writeHead(200, {'Content-Type': 'image/jpeg'});
               response.end(fs.readFileSync(filename));
               ph.exit();
             });
           });
 
-        }, 2500);
+        }, 2100);
       });
     });
   })
