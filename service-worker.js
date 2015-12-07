@@ -13,10 +13,9 @@ self.addEventListener('push', function(event) {
     self.registration.pushManager.getSubscription().then(
       function(subscription){
 
-        clients.matchAll({
+        return clients.matchAll({
             type: "window"
           }).then(function(clientList) {
-            console.log(clientList, JSON.stringify(clientList[0]));
 
             if(clientList[0] && clientList[0].focused) return Promise.reject('focused');
 
