@@ -304,6 +304,14 @@
       opacity: 0.7;
     }
 
+    .chat-container .message .share-overlay .slack-share .slack-share-config {
+      background: #eee;
+      width: 65%;
+      margin: -6px auto 15px;
+      font-size: 0.85em;
+      padding: 15px 0;
+    }
+
     .chat-container .message .share-overlay label {
       margin:7% 0 4px;
       display: inline-block;
@@ -576,6 +584,22 @@
       display: inline-block;
     }
 
+    .btn-slack-image {
+      border-radius: 7px;
+      border-bottom: 2px solid #ccc;
+      transition: border-bottom-color 120ms ease-out;
+
+    }
+
+    .btn-slack-image:hover {
+      border-bottom-color: #aaa;
+    }
+
+
+    .btn.btn-slack:active {
+      border-bottom-color: #ccc;
+    }
+
 /*    button.btn.btn-cta {
       background-color: #D896A0;
       border-bottom:2px solid #AB6B75;
@@ -625,6 +649,13 @@
       .chat-container .message .share-overlay label {
         margin:5% 0 4px;
       }
+
+      .chat-container .message .share-overlay .slack-share .slack-share-config {
+        width: 90%;
+        padding: 5px 0;
+        margin: -5px auto;
+      }
+
     }
 
     @media only screen and (max-width: 850px){
@@ -696,7 +727,7 @@
     <span class="content">
       <span class="title">
         <a href= "/" class="typr">Typr.</a> Send short messages with video, 8 seconds max.
-        <span class="subtitle">Also with private room support, here's a random one: <a data-hook="rand-link" href="">http://typr.club/the-very-random</a></span>
+        <span class="subtitle">You can also go on a private room, here's a random one: <a data-hook="rand-link" href="">http://typr.club/the-very-random</a></span>
     </span>
   </nav>
   <div class="notifications" data-hook="notifications"></div>
