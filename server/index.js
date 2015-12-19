@@ -4,6 +4,7 @@ var server = require('./server'),
     routes = {};
 
 routes['/'] = handlers.home;
+routes['/privacy-policy'] = handlers.pp;
 routes['/upload'] = handlers.upload;
 routes['/api'] = handlers.api;
 routes['/api/subscription'] = handlers.subscription;

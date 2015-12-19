@@ -55,6 +55,14 @@ function homeWithRender(response, _, request){
     })
 };
 
+function pp(response){
+  response.writeHead(200, {
+      'Content-Type': 'text/html'
+  });
+
+  response.end(fs.readFileSync(path.resolve(__dirname, '../privacy-policy.html'), "utf-8"));
+};
+
 function api(response, data, request){
   response.writeHead(200, {
       'Content-Type': 'text/html'
@@ -271,6 +279,7 @@ function getTextForId(response, _, request){
 
 module.exports = {
   home: home,
+  pp: pp,
   api: api,
   upload: upload,
   thumb: thumb,
