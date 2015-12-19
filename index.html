@@ -46,7 +46,10 @@
     body {
       font-family: Helvetica;
       padding: 0;
+      padding-bottom: 43px;
       margin: 0;
+      min-height: 100vh;
+      position: relative;
     }
 
     .inline-hack {
@@ -627,6 +630,20 @@
       float: right;
     }
 
+    .footer {
+      position: absolute;
+      bottom: 0;
+      padding: 5px 10px 20px 10px;
+      width:100%;
+      background: #eee;
+      font-size: 0.75em;
+      color: #aaa;
+    }
+
+    .footer a {
+      color: #787878;
+    }
+
     /* media queries!!! */
 
     @media all and (min-width: 1650px){
@@ -752,6 +769,10 @@
       System.import('lib/main.js');
     </script>
  {{/if}}
+
+ <div class="footer">
+   ~ typr.club - made in london, with <i class="mdi mdi-heart"></i>, in 2015 - <a href="mailto:ruiramos@gmail.com">contact</a>
+ </div>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
