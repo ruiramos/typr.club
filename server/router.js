@@ -19,7 +19,7 @@ function route(handle, pathname, response, postData, request){
   } else if(staticExt[ext]){
     handle._static(response, pathname, postData, request);
   } else {
-    handle['/'](response, postData, request);
+    handle['/some-room'](response, postData, request);
     //response.writeHead(404, { 'Content-Type': 'text/plain' });
     //response.end();
   }

@@ -19,8 +19,32 @@ process.env.AWS_ACCESS_KEY_ID = secrets.s3_key;
 process.env.AWS_SECRET_ACCESS_KEY = secrets.s3_secret;
 
 function home(response, _, request){
+  response.writeHead(200, {
+      'Content-Type': 'text/html'
+  });
+
+    var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
+    response.end(template({
+      homePage: true,
+      ogImageUrl: 'https://typr.club/screenshot.png'
+    }));
+}
+
+function help(response, _, request){
+  response.writeHead(200, {
+      'Content-Type': 'text/html'
+  });
+
+    var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
+    response.end(template({
+      helpPage: true,
+      ogImageUrl: 'https://typr.club/screenshot.png'
+    }));
+}
+
+function room(response, _, request){
   if(_getQueryObject(request).render){
-    homeWithRender(response, _, request);
+    roomWithRender(response, _, request);
     return;
 
   } else {
@@ -38,7 +62,7 @@ function home(response, _, request){
   }
 };
 
-function homeWithRender(response, _, request){
+function roomWithRender(response, _, request){
   var room = url.parse(request.url).pathname.slice(1);
   var data = {};
 
@@ -169,7 +193,7 @@ function serveStatic(response, pathname, postData){
         'ogg': 'audio/ogg',
         'gif': 'image/gif',
         'png': 'image/png',
-        'jpg': 'image/jpg',
+        'jpg': 'image/jpeg',
         'css': 'text/css',
         'eot': 'application/vnd.ms-fontobject',
         'woff2': 'application/font-woff2',
@@ -279,6 +303,8 @@ function getTextForId(response, _, request){
 
 module.exports = {
   home: home,
+  room: room,
+  help: help,
   pp: pp,
   api: api,
   upload: upload,

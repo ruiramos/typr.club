@@ -1,0 +1,717 @@
+* {
+  box-sizing: border-box;
+}
+
+.hide { display: none; }
+.pull-right { float: right; }
+
+a, a:active{
+  color: #5D5DEC;
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+::selection {
+  color: white;
+  background: pink; /* WebKit/Blink Browsers */
+}
+
+body {
+  font-family: Helvetica;
+  padding: 0;
+  padding-bottom: 43px;
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+}
+
+.inline-hack {
+  font-size: 0;
+}
+
+.composer-container {
+  margin-top: 5px;
+  width:24.5%;
+  margin:0.25%;
+  position: relative;
+  display: inline-block;
+}
+
+video.test-video {
+  width:100%;
+  transition: -webkit-filter 300ms ease-out;
+}
+
+video.test-video.grayscale {
+  -webkit-filter: contrast(0.2) grayscale(1);
+}
+
+input.test-input {
+  padding: 6px 8px;
+  width: 97.5%;
+  font-size: 18px;
+  position: absolute;
+  border: 0;
+  background-color: rgba(255,255,255,0.5);
+  bottom: 6px;
+  left: 1.25%;
+}
+
+.chat-container {
+  display: inline;
+}
+
+.chat-container .message {
+  width: 24.5%;
+  margin:0.25%;
+  display:inline-block;
+  position: relative;
+  vertical-align: top;
+  background: black;
+  -webkit-user-select: none;
+
+  overflow: hidden;
+
+  transition: opacity 200ms ease-out;
+}
+
+.chat-container .message.no-autoplay:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(200,200,200,0.25);
+  font-size: 9px;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 8em;
+  text-align: center;
+  content: 'Tap to load videos!';
+  z-index: 9000;
+  color: white;
+  opacity: 0.55;
+}
+
+.chat-container .message.selfie {
+  opacity: 0.5;
+}
+
+.chat-container .message .remove-element {
+  position: absolute;
+  top:-4px;
+  right:-4px;
+  left: auto;
+  width:22px;
+  height:22px;
+  border-radius: 100%;
+  border-top: 1px solid #333;
+  border-right: 1px solid #333;
+  border-left: 1px solid #000;
+  border-bottom: 1px solid #000;
+  font-weight: 600;
+  background: black;
+  color: #aaa;
+  font-size: 12px;
+  text-align: center;
+  line-height: 21px;
+  z-index:9999;
+  cursor: pointer;
+  transition: background 150ms ease-out,
+              color 150ms ease-out,
+              border-color 150ms ease-out;
+}
+
+.chat-container .message .remove-element:hover {
+  background:#333;
+  color: white;
+  border-color: #333 #333 #222 #222;
+}
+
+.chat-container .message video,
+.chat-container .message img.poster {
+  width: 100%;
+}
+
+.chat-container .message span.text {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 32px;
+  overflow: hidden;
+  font-weight: bold;
+  text-shadow: 0px -1px 2px rgba(0,0,0,0.7);
+  color: white;
+  opacity: 0.55;
+}
+
+
+.chat-container .message .share-overlay,
+.chat-container .message .overlay {
+  opacity: 0;
+}
+
+.chat-container .message:not(.selfie) .sharing-blocker,
+.chat-container .message:not(.selfie) .share-overlay,
+.chat-container .message:not(.selfie) .overlay {
+  position: absolute;
+  z-index: 9990;
+  top: 0;
+  left: 0;
+  right: -1px;
+  font-size:24px;
+  height: 100%;
+  background: #eee;
+  opacity: 0;
+  text-align: center;
+  line-height: 100%;
+
+  transition: opacity 150ms ease-out, transform 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.chat-container .message:not(.selfie) .share-overlay{
+  transform: translateY(100%);
+  background: rgba(250,250,250,0.875);
+
+}
+
+.chat-container .message .share-overlay .sharing-blocker {
+  z-index: 9991;
+  opacity: 1;
+}
+
+
+.chat-container .message:not(.selfie):hover .overlay {
+  opacity: 0.275;
+}
+
+.chat-container .message:not(.selfie) .overlay .icon-container {
+  color:black;
+  font-size: 62px;
+  position: relative;
+  top: 50%;
+  margin-top: -25px;
+  text-align: center;
+}
+
+.mdi {
+  position: relative;
+  z-index: 9999;
+  transition: color 200ms ease-out;
+}
+
+.icon-container .mdi-heart:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.icon-container .mdi-share:hover {
+  color: blue;
+  cursor: pointer;
+}
+
+.chat-container .message:not(.selfie) .share-overlay.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chat-container .message.selfie .heart-count {
+  opacity: 0;
+  transition: opacity 100ms ease-out;
+}
+
+.chat-container .message:not(.selfie) .heart-count {
+  position: absolute;
+  opacity: 0.5;
+  text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+  font-size: 14px;
+  color: white;
+  margin: 4px;
+}
+
+.chat-container .message:not(.selfie) .heart-count i {
+  margin-right: 4px;
+}
+
+@keyframes heart-animation {
+  0% {
+    transform: translate(0, 50px) rotate(-8deg);
+    opacity: 0;
+    color: red;
+  }
+
+  40% {
+    transform: rotate(8deg);
+    opacity: 0.7;
+  }
+
+  80% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: translate(0, 0px) rotate(0deg);
+    opacity: 1;
+    color: white;
+  }
+
+}
+
+.heart-count.animate i.mdi-heart {
+  animation: heart-animation 0.9s ease-out;
+}
+
+.chat-container .message .share-overlay {
+  font-size: 14px !important;
+}
+
+.chat-container .message .share-overlay .slack-share {
+  margin-top: 12%;
+}
+
+.chat-container .message .share-overlay .slack-share i {
+  cursor: pointer;
+  opacity: 0.5;
+  margin-left: 3px;
+  transition: opacity 200ms ease-out;
+}
+
+.chat-container .message .share-overlay .slack-share i:hover {
+  opacity: 0.7;
+}
+
+.chat-container .message .share-overlay .slack-share .slack-share-config {
+  background: #eee;
+  width: 65%;
+  margin: -6px auto 15px;
+  font-size: 0.85em;
+  padding: 10px 0;
+}
+
+.chat-container .message .share-overlay label {
+  margin:7% 0 4px;
+  display: inline-block;
+  font-size: 0.85em;
+  color: #444;
+}
+
+.chat-container .message .share-overlay input {
+  width: 90%;
+  font-size:0.9em;
+  margin:0px auto;
+  padding: 4px 8px;
+}
+
+.room-title {
+  display: block;
+  /*border-bottom: 2px solid #eee;*/
+  margin: 0 6px;
+  position: relative;
+}
+
+.room-title a {
+  font-size:12px;
+  display: inline-block;
+  font-weight: 600;
+  margin: 20px 0 2px 0;
+  text-decoration: none;
+  background-color: #AB6B75;
+  color: white;
+  padding:1px;
+
+  transition: background 200ms ease-out;
+}
+
+.room-title a {
+  /*color: #333;*/
+}
+
+.room-title a:hover {
+  color: #fff;
+  background: #D896A0;
+}
+
+.room-title .connected-clients {
+  padding: 1px;
+  font-size: 11px;
+/*      position: absolute;
+  right: 0;
+  bottom: 1px;
+*/
+  margin-left:3px;
+  background-color: white;
+  color: #222;
+  font-weight: 600;
+}
+
+nav {
+  background: #2F2A27;
+  position: relative;
+  text-align: center;
+  font-size:0.75em;
+  color: #B3AFB2;
+
+  min-height: 34px;
+}
+
+nav .content a.typr {
+  background-color: #AB6B75;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 200ms ease-out;
+}
+
+nav .content a.typr:hover {
+  background: #D896A0;
+}
+
+nav .content .subtitle,
+.help a {
+  color: #777575;
+}
+
+.help a:hover {
+  color: #838384;
+}
+
+nav .title {
+  line-height: 34px;
+}
+
+nav .pull-right {
+  position: absolute;
+  right: 8px;
+}
+
+nav .clients,
+nav .room,
+nav button {
+  background: #424040;
+  color: #eee;
+  border-radius: 4px;
+  padding: 4px 9px;
+  font-size: 10px;
+  font-weight: 600;
+  margin: 6px 4px;
+  display: inline-block;
+}
+
+nav button {
+  cursor: pointer;
+  background: #eee;
+  color: #222;
+  border: 0;
+  border-bottom: 2px solid #aaa;
+  transition: background 200ms ease-out;
+}
+
+nav button.active {
+  background: #424040;
+  color: #eee;
+  border-bottom-color: #222;
+}
+
+nav button:hover {
+  background: #cfcfcf;
+}
+
+nav button.active:hover {
+  background: #323030;
+}
+
+nav button.subscribe-btn {
+  position: relative;
+  outline: 0;
+  min-width: 75px;
+  z-index:9;
+}
+
+nav button.subscribe-btn:after {
+  position: absolute;
+  top: 100%;
+  left: -20%;
+  width: 123%;
+  margin-top: 10px;
+  padding: 4px;
+  color: #eee;
+  background:#222;
+
+}
+
+nav button.subscribe-btn:hover:after {
+  content: 'Subscribing means you\'ll see this room in the homepage. It\'s great!';
+}
+
+
+.notifications {
+  position: absolute;
+  text-align: center;
+  display: block;
+  top: 5%;
+  width: 100%;
+  z-index: 9999;
+}
+
+.notifications .message {
+  position: relative;
+  top: -400px;
+  opacity: 0;
+  font-size:12px;
+
+  padding:3px 6px;
+
+  transition: top 300ms ease-out,
+              opacity 300ms ease-out;
+}
+
+.notifications .message.in {
+  top: 0;
+  opacity: 1;
+}
+
+.notifications .message.warn-message{
+  background: yellow;
+}
+
+button {
+  cursor: pointer;
+}
+
+button.btn-transparent {
+  background: transparent;
+  border: 0px;
+  padding: 5px;
+}
+
+button.btn {
+  margin: 10px auto;
+  padding: 5px 22px;
+  background-color: #999;
+  color: white;
+  border: 0px;
+  border-top:2px solid transparent;
+  border-bottom:2px solid #666;
+  display: block;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size:.9em;
+  outline: none;
+
+  transition: background-color 80ms ease-out,
+              border-bottom-color 80ms ease-out,
+              color 80ms ease-out;
+}
+
+button.btn:hover {
+  border-bottom-color: #444;
+}
+
+button.btn:active {
+  border-top: 2px solid #666;
+  background-color: #444;
+  border-bottom-color: #444;
+  top: 1px;
+  position: relative;
+}
+
+.btn.btn-fb {
+  background-color: #3b5998;
+  border-bottom: 2px solid #283B65;
+}
+
+.btn.btn-fb:hover {
+  border-bottom-color: #080D19;
+}
+
+.btn.btn-fb:active {
+  border-top: 2px solid #3b5998;
+  background-color: #283B65;
+  border-bottom-color: #283B65;
+}
+
+.btn.btn-slack {
+  color: black;
+  background-color: white;
+  border-bottom: 2px solid #ccc;
+}
+
+.btn.btn-slack:hover {
+  border-bottom-color: #aaa;
+}
+
+.btn.btn-slack:active {
+  border-top: 2px solid #dfdfdf;
+  background-color: #ccc;
+  border-bottom-color: #ccc;
+}
+
+.btn.btn-slack .slack-button-loading-text {
+  display: none;
+}
+
+.btn.btn-slack.btn-disabled {
+  background: #ccc !important;
+  border-top-color: #ccc !important;
+  border-bottom-color: #ccc !important;
+  top: 0 !important;
+}
+
+.btn.btn-slack.btn-disabled .slack-button-share-text {
+  display: none;
+}
+
+.btn.btn-slack.btn-disabled .slack-button-loading-text {
+  display: inline-block;
+}
+
+.btn-slack-image {
+  border-radius: 7px;
+  border-bottom: 2px solid #ccc;
+  transition: border-bottom-color 120ms ease-out;
+
+}
+
+.btn-slack-image:hover {
+  border-bottom-color: #aaa;
+}
+
+
+.btn.btn-slack:active {
+  border-bottom-color: #ccc;
+}
+
+/*    button.btn.btn-cta {
+  background-color: #D896A0;
+  border-bottom:2px solid #AB6B75;
+}
+
+button.btn.btn-cta:hover {
+  border-bottom-color: #7D4E54;
+}
+
+button.btn.btn-cta:active {
+  border-top: 2px solid #D896A0;
+  background-color: #AB6B75;
+  border-bottom-color: #AB6B75;
+}*/
+
+button.btn-large {
+  min-width: 165px;
+}
+
+butotn.btn-primary {
+  background: #999;
+}
+
+.pull-right {
+  float: right;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  padding: 5px 10px 20px 10px;
+  width:100%;
+  background: #eee;
+  font-size: 0.75em;
+  color: #aaa;
+}
+
+.footer a {
+  color: #787878;
+}
+
+/* media queries!!! */
+
+@media all and (min-width: 1650px){
+  .composer-container {
+     width:19.5%;
+     margin:0.25% 0.25%;
+   }
+
+  .chat-container .message {
+    width: 19.5%;
+    margin:0.25% 0.25%;
+  }
+
+}
+
+@media only screen and (max-width: 1200px){
+  .chat-container .message .share-overlay {
+    font-size: 12px !important;
+  }
+  .chat-container .message .share-overlay label {
+    margin:5% 0 4px;
+  }
+
+  .chat-container .message .share-overlay .slack-share .slack-share-config {
+    width: 90%;
+    padding: 5px 0;
+    margin: -5px auto;
+  }
+
+}
+
+@media only screen and (max-width: 850px){
+  .chat-container .message .share-overlay {
+    font-size: 11px !important;
+  }
+
+  .composer-container {
+     width:32.5%;
+     margin:0.25% 0.25%;
+   }
+
+  .chat-container .message {
+    width: 32.5%;
+    margin:0.25% 0.25%;
+  }
+
+  .chat-container .message span.text {
+    font-size: 26px;
+  }
+
+  nav .room {
+    right: 12px;
+  }
+
+  nav .title {
+    line-height: 1em;
+    width: 100%;
+    display: block;
+  }
+
+  nav .pull-right {
+    position: static;
+    display: block;
+  }
+
+  nav .content {
+    font-size: 11px;
+    padding: 10px 0;
+    display: inline-block;
+  }
+
+  .desktop {display: none; !important}
+}
+
+@media only screen and (max-width: 400px){
+  .composer-container {
+     width:49.5%;
+     margin:0.25% 0.25%;
+   }
+
+  .chat-container .message {
+    width: 49.5%;
+    margin:0.25% 0.25%;
+  }
+
+  .chat-container .message span.text {
+    font-size: 22px;
+  }
+
+  .desktop {display: none; !important}
+}
