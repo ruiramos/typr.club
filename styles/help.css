@@ -33,3 +33,13 @@ h1:after {
   margin: 0px auto;
   text-align: left;
 }
+
+.help-copy img {
+  max-width: 100%;
+}
+
+@media only screen and (max-width: 800px){
+.help-copy {
+  width: 85%;
+
+}

@@ -31,6 +31,23 @@ body {
   font-size: 0;
 }
 
+.empty-state {
+  font-size: 12px;
+  vertical-align: top;
+  width: 350px;
+  height: 265px;
+  background: #fafafa;
+  color: #aaa;
+  opacity: 0;
+  padding: 0 15px;
+  display: inline-block;
+  transition: opacity 0.5s ease-out 1s;
+}
+
+.empty-state li {
+  margin-bottom: 6px;
+}
+
 .composer-container {
   margin-top: 5px;
   width:24.5%;
@@ -699,6 +716,10 @@ butotn.btn-primary {
 }
 
 @media only screen and (max-width: 400px){
+  body {
+    overflow-x: hidden;
+  }
+
   .composer-container {
      width:49.5%;
      margin:0.25% 0.25%;
