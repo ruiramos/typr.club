@@ -734,5 +734,10 @@ butotn.btn-primary {
     font-size: 22px;
   }
 
+  .footer {
+    padding: 5px 15px;
+    font-size: 0.7em;
+  }
+
   .desktop {display: none; !important}
 }
