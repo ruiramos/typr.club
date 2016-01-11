@@ -86,6 +86,7 @@ input.test-input {
   display:inline-block;
   position: relative;
   vertical-align: top;
+  min-height: 50px;
   -webkit-user-select: none;
 
   overflow: hidden;
