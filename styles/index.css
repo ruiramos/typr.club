@@ -94,7 +94,9 @@ input.test-input {
   transition: opacity 200ms ease-out;
 }
 
-.chat-container .message.no-autoplay video {
+.chat-container .message.no-autoplay video,
+.chat-container .message.no-autoplay .text
+ {
   display: none;
 }
 
