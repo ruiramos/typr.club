@@ -94,7 +94,7 @@ input.test-input {
   transition: opacity 200ms ease-out;
 }
 
-.chat-container .message.no-autoplay:before {
+/*.chat-container .message.no-autoplay:before {
   position: absolute;
   top: 0;
   left: 0;
@@ -110,7 +110,7 @@ input.test-input {
   z-index: 9000;
   color: white;
   opacity: 0.55;
-}
+}*/
 
 .chat-container .message.selfie {
   opacity: 0.5;
