@@ -94,7 +94,15 @@ input.test-input {
   transition: opacity 200ms ease-out;
 }
 
-/*.chat-container .message.no-autoplay:before {
+.chat-container .message.no-autoplay video {
+  display: none;
+}
+
+.chat-container .message.no-autoplay img.fallback-gif {
+  display: block;
+  width: 100%;
+}
+/*
   position: absolute;
   top: 0;
   left: 0;
