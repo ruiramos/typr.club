@@ -86,7 +86,6 @@ input.test-input {
   display:inline-block;
   position: relative;
   vertical-align: top;
-  background: black;
   -webkit-user-select: none;
 
   overflow: hidden;
