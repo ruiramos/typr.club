@@ -48,7 +48,7 @@ h1:after {
 }
 
 .form {
-  margin-top: -0.5em;
+  margin-top: -1em;
 }
 
 .fake-input {
@@ -101,6 +101,12 @@ h1:after {
 
 .form button:hover {
   background: #4E4A47;
+}
+
+.world-link {
+  margin: 4px 0;
+  opacity: 0.75;
+  font-size: 0.85em;
 }
 
 .help {

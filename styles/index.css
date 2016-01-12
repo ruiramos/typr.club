@@ -36,7 +36,6 @@ body {
   vertical-align: top;
   width: 350px;
   height: 265px;
-  background: #fafafa;
   color: #aaa;
   opacity: 0;
   padding: 0 15px;
@@ -400,8 +399,8 @@ nav .content a.typr:hover {
 }
 
 nav .content .subtitle,
-.help a {
-  color: #777575;
+.help a, .world-link a {
+  color: #5F5E5E;
 }
 
 .help a:hover {
