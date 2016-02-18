@@ -14,8 +14,8 @@ function _createWssSocket(port){
   var cfg = {
       ssl: true,
       port: port,
-      ssl_key: '/etc/letsencrypt/live/ruiramos.com/privkey.pem',
-      ssl_cert: '/etc/letsencrypt/live/ruiramos.com/cert.pem'
+      ssl_key: '/etc/letsencrypt/live/typr.club/privkey.pem',
+      ssl_cert: '/etc/letsencrypt/live/typr.club/cert.pem'
 };
 
   var httpsServ = require('https');
