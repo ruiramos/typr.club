@@ -321,7 +321,7 @@ input.test-input {
 }
 
 .chat-container .message .share-overlay label {
-  margin:7% 0 4px;
+  margin:3.5% 0 4px;
   display: inline-block;
   font-size: 0.85em;
   color: #444;
@@ -674,7 +674,7 @@ butotn.btn-primary {
     font-size: 12px !important;
   }
   .chat-container .message .share-overlay label {
-    margin:3.5% 0 4px;
+    margin:5% 0 4px;
   }
 
   .chat-container .message .share-overlay .slack-share .slack-share-config {
