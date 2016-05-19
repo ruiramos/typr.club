@@ -483,6 +483,7 @@ nav button.subscribe-btn:hover:after {
   top: 5%;
   width: 100%;
   z-index: 9999;
+  left: 0;
 }
 
 .notifications .message {
