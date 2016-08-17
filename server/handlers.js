@@ -26,7 +26,7 @@ function home(response, _, request){
     var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
     response.end(template({
       homePage: true,
-      ogImageUrl: 'https://typr.club/screenshot.png'
+      ogImageUrl: 'https://typr.club/images/screenshot.png'
     }));
 }
 
@@ -38,7 +38,7 @@ function help(response, _, request){
     var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
     response.end(template({
       helpPage: true,
-      ogImageUrl: 'https://typr.club/screenshot.png'
+      ogImageUrl: 'https://typr.club/images/screenshot.png'
     }));
 }
 
@@ -57,7 +57,7 @@ function room(response, _, request){
     var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
     response.end(template({
       currentRoom: pathName,
-      ogImageUrl: pathName ? 'https://typr.club/thumb?id=' + pathName : 'https://typr.club/screenshot.png'
+      ogImageUrl: pathName ? 'https://typr.club/thumb?id=' + pathName : 'https://typr.club/inages/screenshot.png'
     }));
   }
 };
