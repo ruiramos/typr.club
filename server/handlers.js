@@ -167,7 +167,7 @@ function thumb(response, _, request){
       page.setViewportSize(1200, 630);
       page.set('clipRect', {top: 0, left: 0, width: 1200, height: 630});
 
-      return page.open("https://typr.club/"+id+"?render=true", function(status) {
+      return page.open("http://localhost:8000/"+id+"?render=true", function(status) {
         setTimeout(function(){
           page.evaluate(function () { document.body.bgColor = 'white'; return document.body; }, function (result) {
             page.render(filename, {quality: 90}, function(image){
@@ -177,7 +177,7 @@ function thumb(response, _, request){
             });
           });
 
-        }, 2100);
+        }, 2500);
       });
     });
   })
