@@ -5,3 +5,4 @@ server/dump.rdb
 dump.rdb
 server/secrets.js
 lib/secrets.js
+npm-debug.log
