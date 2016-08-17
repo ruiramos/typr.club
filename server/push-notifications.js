@@ -18,7 +18,7 @@ function _pushNotifications(ids, room){
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
-      Authorization: 'key=AIzaSyDWZfwAuII1Tnzj4qnylBuwK-spXVVkPzA',
+      Authorization: 'key=' + secrets.gcm_key,
       'Content-Type': 'application/json'
     }
   });

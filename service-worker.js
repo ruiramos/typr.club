@@ -5,7 +5,6 @@
 
 **/
 
-
 self.addEventListener('push', function(event) {
   console.log('Received a push message', event, event.endpoint);
 
@@ -78,10 +77,3 @@ self.addEventListener('notificationclick', function(event) {
   }));
 
 });
-
-// self.addEventListener('message', function(event) {
-//   var data = JSON.parse(event.data);
-//   if(!data) return;
-//   if(data.uuid){ uuid = data.uuid; }
-// })
-
