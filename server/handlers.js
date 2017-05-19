@@ -167,6 +167,7 @@ function thumb(response, _, request){
       page.setViewportSize(1200, 630);
       page.set('clipRect', {top: 0, left: 0, width: 1200, height: 630});
 
+      // this IS localhost... to avoid SSL issues  
       return page.open("http://localhost:8000/"+id+"?render=true", function(status) {
         setTimeout(function(){
           page.evaluate(function () { document.body.bgColor = 'white'; return document.body; }, function (result) {
