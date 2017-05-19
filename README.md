@@ -2,7 +2,7 @@
 
 [typr.club](https://typr.club) is a WebSockets based chat room system that sends short video messages with text.
 
-It tries to provide a more expressive way of communicating online, while keeping the messaging simple, realtime and asynchronous.
+It provides a more expressive way of communicating online, while keeping the messaging simple, realtime and asynchronous.
 
 Some features include:
   - Create "secret" rooms on the fly, appending the room name to the url
