@@ -109,7 +109,7 @@ function api(response, data, request){
 
 function upload(response, postData, request){
   var content = JSON.parse(postData);
-  var ip = request.connection.remoteAddress;
+  var ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
   var room = content.room;
 
   if(!db.canUserPost(content.uuid, room, ip, function(canPost){

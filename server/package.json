@@ -1,14 +1,13 @@
 {
   "name": "typr.club-server",
   "version": "1.0.0",
-  "author": "Rui Ramos",
+  "author": "Rui Ramos <ruiramos@gmail.com> (http://ruiramos.com/)",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "Rui Ramos <ruiramos@gmail.com> (http://ruiramos.com/)",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1.50",
@@ -17,6 +16,6 @@
     "phantomjs": "^1.9.18",
     "redis": "^1.0.0",
     "request": "^2.65.0",
-    "ws": "^0.8.1"
+    "ws": "^1.1.1"
   }
 }
