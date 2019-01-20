@@ -1,11 +1,8 @@
 FROM node:8
 
 COPY . /app
-
-WORKDIR /app
-
-RUN npm install
-RUN npm run build
+RUN rm -rf node_modules
+RUN rm -rf jspm_modules
 
 WORKDIR /app/server
 
