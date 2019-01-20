@@ -16,6 +16,7 @@ jobs:
           name: Install dependencies
           command: |
             npm install
+            jspm install
 
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
