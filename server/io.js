@@ -14,8 +14,8 @@ function _createWssSocket(port){
   var cfg = {
       ssl: true,
       port: port,
-      ssl_key: '/etc/letsencrypt/live/typr.club/privkey.pem',
-      ssl_cert: '/etc/letsencrypt/live/typr.club/cert.pem'
+      ssl_key: process.env.SSL_KEY,
+      ssl_cert: process.env.SSL_CERT
 };
 
   var httpsServ = require('https');
@@ -26,7 +26,7 @@ function _createWssSocket(port){
     res.end("All glory to WebSockets!\n");
   };
 
-  app = httpsServ.createServer({
+  var app = httpsServ.createServer({
     // providing server with  SSL key/cert
     key: fs.readFileSync( cfg.ssl_key ),
     cert: fs.readFileSync( cfg.ssl_cert )
@@ -35,19 +35,39 @@ function _createWssSocket(port){
   return new WebSocketServer({server: app});
 }
 
+function _createWsSocket(port){
+  var cfg = {
+    port: port,
+  };
+
+  var httpServ = require('http');
+
+  // dummy request processing
+  var processRequest = function( req, res ) {
+    res.writeHead(200);
+    res.end("All glory to WebSockets!\n");
+  };
+
+  var app = httpServ.createServer(processRequest)
+  app.listen(cfg.port);
+
+  return new WebSocketServer({server: app});
+}
+
 function connect(isProd, ports){
   var wss;
 
-  if(!isProd){
-    wss = new WebSocketServer({ port: ports.dev }); // ws://localhost:8008 for dev
+  if(!isProd || !process.env.SSL_KEY || !process.env.SSL_CERT){
+    wss = _createWsSocket(ports.prod);
   } else {
-    wss = _createWssSocket(ports.prod); // in prod, create a wss socket on port 5282
+    wss = _createWssSocket(ports.prod); 
   }
 
   var self = this;
 
   wss.on('connection', function connection(ws) {
     var rooms = ws.upgradeReq.url.replace('/', '').split(',');
+    console.log('new socket connection', ws);
 
     rooms.forEach(function(room){
       clients[room] = clients[room] || [];
@@ -86,6 +106,7 @@ function connect(isProd, ports){
     })
 
     ws.on('close', function(){
+      console.log('socket connection closed', ws);
       rooms.forEach(function(room){
         clients[room].splice(clients[room].indexOf(ws), 1);
 

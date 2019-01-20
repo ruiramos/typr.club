@@ -1,12 +1,13 @@
+/* eslint-env node */
 var http = require('http'),
     url = require('url'),
     io = require('./io'),
-    path = require('path');
+    path = require('path'),
     config = {
-      port: 8000,
+      port: process.env.PORT || 8088,
       wsPorts: {
-        dev: 8008,
-        prod: 5282
+        dev: process.env.WSPORT || 5088,
+        prod: process.env.WSPORT || 5088
       },
 
       upload_dir: path.resolve(__dirname, './uploads'),
@@ -21,7 +22,7 @@ var http = require('http'),
     }
 
 function isProd(){
-  return !!process.env.prod;
+  return process.env.NODE_ENV === 'production';
 }
 
 function start(route, handle) {

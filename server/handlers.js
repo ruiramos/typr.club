@@ -1,4 +1,3 @@
-
 var fs = require('fs'),
     db = require('./db'),
     path = require('path');
@@ -12,11 +11,12 @@ var fs = require('fs'),
 
 
 var filePathBase = './uploads/';
-var s3 = new AWS.S3({region: 'eu-west-1'});
+var s3 = new AWS.S3({
+  region: 'eu-west-1',
+  accessKeyId: secrets.s3_key,
+  secretAccessKey: secrets.s3_secret
+});
 var serverWebmFilePath = 'https://files-webm.typr.club/';
-
-process.env.AWS_ACCESS_KEY_ID = secrets.s3_key;
-process.env.AWS_SECRET_ACCESS_KEY = secrets.s3_secret;
 
 function home(response, _, request){
   response.writeHead(200, {
@@ -60,7 +60,7 @@ function room(response, _, request){
       ogImageUrl: pathName ? 'https://typr.club/thumb?id=' + pathName : 'https://typr.club/inages/screenshot.png'
     }));
   }
-};
+}
 
 function roomWithRender(response, _, request){
   var room = url.parse(request.url).pathname.slice(1);
@@ -77,7 +77,7 @@ function roomWithRender(response, _, request){
       var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
       response.end(template({res: res.reverse(), currentRoom: room}));
     })
-};
+}
 
 function pp(response){
   response.writeHead(200, {
@@ -85,7 +85,7 @@ function pp(response){
   });
 
   response.end(fs.readFileSync(path.resolve(__dirname, '../privacy-policy.html'), "utf-8"));
-};
+}
 
 function api(response, data, request){
   response.writeHead(200, {
@@ -153,10 +153,10 @@ function upload(response, postData, request){
           response.end(message.data.video);
         }
       });
-    };
+    }
   }));
 
-};
+}
 
 function thumb(response, _, request){
   var id = _getQueryObject(request).id;
@@ -182,7 +182,7 @@ function thumb(response, _, request){
       });
     });
   })
-};
+}
 
 function serveStatic(response, pathname, postData){
   var extension = pathname.split('.').pop(),
@@ -202,7 +202,7 @@ function serveStatic(response, pathname, postData){
       };
 
   response.writeHead(200, {
-      'Content-Type': extensionTypes[extension]
+    'Content-Type': extensionTypes[extension] || 'text/plain'
   });
 
   try {
@@ -214,7 +214,7 @@ function serveStatic(response, pathname, postData){
     response.writeHead(404, { 'Content-Type': 'text/plain' });
     response.end();
   }
-};
+}
 
 function hasMediaType(type) {
     var isHasMediaType = false;
@@ -223,7 +223,7 @@ function hasMediaType(type) {
     });
 
     return isHasMediaType;
-};
+}
 
 function _upload(response, file, fn) {
     var fileRootName = file.name.split('.').shift(),

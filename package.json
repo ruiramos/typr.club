@@ -10,7 +10,7 @@
       "clean-css": "npm:clean-css@^3.4.19",
       "cookie": "npm:cookie@^0.2.0",
       "css": "github:systemjs/plugin-css@^0.1.20",
-      "getusermedia": "npm:getusermedia@^1.3.5",
+      "getusermedia": "npm:getusermedia@^2.0.1",
       "jquery": "github:components/jquery@^2.1.4",
       "lodash": "npm:lodash@^3.10.1",
       "mdi": "npm:mdi@^1.3.41",
@@ -28,6 +28,6 @@
     "recordrtc": "github:ruiramos/recordrtc"
   },
   "devDependencies": {
-    "jspm": "^0.16.42"
+    "jspm": "^0.16.53"
   }
 }

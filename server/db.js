@@ -1,6 +1,7 @@
-
 var redis = require("redis"),
-    client = redis.createClient();
+  client = redis.createClient({
+    host: process.env.REDIS_HOST || 'localhost'
+  });
 
 var messages = {};
 
@@ -108,7 +109,7 @@ function getWithOffset(room, offset, fn){
 }
 
 function remove(ids, room, number){
-  if(!ids instanceof Array){
+  if(!(ids instanceof Array)){
     ids = [ids];
   }
 
@@ -170,7 +171,7 @@ function _removeWithSplice(id, room, number){
       index = i;
       break;
     }
-  };
+  }
 
   if(index !== undefined){
     temp.splice(index, number);
