@@ -57,7 +57,7 @@ function room(response, _, request){
     var template = Handlebars.compile(fs.readFileSync(path.resolve(__dirname, '../index.html'), "utf-8"));
     response.end(template({
       currentRoom: pathName,
-      ogImageUrl: pathName ? 'https://typr.club/thumb?id=' + pathName : 'https://typr.club/inages/screenshot.png'
+      ogImageUrl: /*pathName ? 'https://typr.club/thumb?id=' + pathName :*/ 'https://typr.club/inages/screenshot.png'
     }));
   }
 }
