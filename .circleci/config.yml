@@ -15,7 +15,7 @@ jobs:
       - run: 
           name: Install dependencies
           command: |
-            npm install
+            npm ci
             npx jspm install
 
       - save_cache:
