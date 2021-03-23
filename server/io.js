@@ -67,7 +67,7 @@ function connect(isProd, ports){
 
   wss.on('connection', function connection(ws) {
     var rooms = ws.upgradeReq.url.replace('/', '').split(',');
-    console.log('new socket connection', ws);
+    //console.log('new socket connection', ws);
 
     rooms.forEach(function(room){
       clients[room] = clients[room] || [];
@@ -95,7 +95,7 @@ function connect(isProd, ports){
           break;
 
         case 'like':
-          console.log(data);
+          //console.log(data);
           db.videoLiked(data.id, data.room, function(message){
             clients[data.room].forEach(function(client){
               client.send(JSON.stringify({type: 'like', room: data.room, id: data.id, likes: message.likes}))
@@ -106,7 +106,7 @@ function connect(isProd, ports){
     })
 
     ws.on('close', function(){
-      console.log('socket connection closed', ws);
+      //console.log('socket connection closed');
       rooms.forEach(function(room){
         clients[room].splice(clients[room].indexOf(ws), 1);
 
