@@ -28,6 +28,6 @@
     "recordrtc": "github:ruiramos/recordrtc"
   },
   "devDependencies": {
-    "jspm": "^0.16.53"
+    "jspm": "^2.0.0-beta.7"
   }
 }
