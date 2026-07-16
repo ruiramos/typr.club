@@ -231,9 +231,13 @@ function _upload(response, file, fn) {
 
     file.contents = file.contents.split(',').pop();
 
+    // iOS/Safari records MP4, other browsers WebM - label the object with its
+    // real content-type instead of assuming WebM.
+    var contentType = fileExtension === 'mp4' ? 'video/mp4' : 'video/webm';
+
     var params = {
       Key: fileRootName + '.' + fileExtension,
-      ContentType: 'video/webm',
+      ContentType: contentType,
       Bucket: 'files-webm.typr.club',
       Body: new Buffer(file.contents, "base64")
     };
