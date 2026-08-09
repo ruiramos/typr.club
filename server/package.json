@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1.50",
-    "handlebars": "^4.0.4",
+    "handlebars": "^4.7.7",
     "phantom": "^0.9.0",
     "phantomjs": "^1.9.18",
     "redis": "^2.8.0",
